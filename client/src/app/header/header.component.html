@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand pt-0" href="#"><i class="fa fa-puzzle-piece" style="font-size: 200%; color: grey;"></i> {{title}}</a>
+    <button class="navbar-toggler" type="button" (click)="toggleCollapsedNav()" [attr.aria-expanded]="!isCollapsedNav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" ngToggler></span>
+    </button>
+    <div class="collapse navbar-collapse"  [ngbCollapse]="isCollapsedNav" >
+      <ul class="navbar-nav mr-auto pt-2">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Profile</a>
+        </li>
+        <li class="nav-item dropdown" ngbDropdown>
+          <a class="nav-link dropdown-toggle" href="#" id="games" (click)="toggleCollapsedDropDown()" aria-haspopup="true" [attr.aria-expanded]="!isCollapsedDropDown" ngbDropdownToggle>Games</a>
+          <div class="dropdown-menu" aria-labelledby="games" ngbDropdownMenu>
+            <a class="dropdown-item" href="#">Hangman</a>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline row my-2 my-lg-0 mr-2 ml-2" [formGroup]="loginForm">
+        <ng-container *ngIf="(this.accountService.currentUser$ | async) === null">
+          <input class="form-control mr-sm-2 col-5" type="text" formControlName="username" placeholder="username">
+          <input class="form-control mr-sm-2 col-5" type="password" formControlName="password" placeholder="password">
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" (click)="login()">Login</button>
+        </ng-container>
+        <button *ngIf="(this.accountService.currentUser$ | async) != null" class="btn btn-outline-primary" style="margin-left: -10px;" type="submit" (click)="logout()">Logout</button>
+      </form>
+    </div>
+  </nav>
+
+  <!--<span class="sr-only">(current)</span>-->
+
