@@ -1,11 +1,10 @@
 using System.Collections.Generic;
+using API.Entities;
 
-namespace API.Entities
+namespace API.DTOs
 {
-    public class Game
+    public class GameDto
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Answer { get; set; }
@@ -14,6 +13,6 @@ namespace API.Entities
 
         public int GameTypeId { get; set; }
 
-        public List<Score> Scores { get; set; } = new List<Score>();
+        public List<Score> Scores { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c5Mjbf4zKweLDoBaMBOFq3qG/4Q1jBYyQm+pHYFK3rOJA866s6bSL4sJ2fqMdzr6uFjzU+arTQBMA1B8HvGk9A==",
+  "dgSpecHash": "aPeyhc9ZAWbWD8/D0KGmbsjN+Obyz85hmHrw5hVV32qu6aQ6oDYpGNHLyS2ksFhdR+YVx/Uo5rY58JZPi1UrVQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cfern\\Documents\\Puzzler\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\cfern\\Documents\\GitHub Current\\Puzzler\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cfern\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\cfern\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.8\\microsoft.aspnetcore.authentication.jwtbearer.5.0.8.nupkg.sha512",

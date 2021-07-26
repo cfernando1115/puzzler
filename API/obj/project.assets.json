@@ -1710,11 +1710,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\cfern\\Documents\\Puzzler\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\cfern\\Documents\\GitHub Current\\Puzzler\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "c:\\Users\\cfern\\Documents\\Puzzler\\API\\API.csproj",
+      "projectPath": "C:\\Users\\cfern\\Documents\\GitHub Current\\Puzzler\\API\\API.csproj",
       "packagesPath": "C:\\Users\\cfern\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\cfern\\Documents\\Puzzler\\API\\obj\\",
+      "outputPath": "C:\\Users\\cfern\\Documents\\GitHub Current\\Puzzler\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cfern\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -9,23 +10,13 @@ import { AccountService } from '../_services/account.service';
 })
 export class HeaderComponent implements OnInit {
   title = 'Puzzler';
-  isCollapsedNav = true;
-  isCollapsedDropDown = true;
   loginForm: FormGroup;
   loggedIn = false;
 
-  constructor(public accountService: AccountService) { }
+  constructor(public accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm();
-  }
-
-  toggleCollapsedNav(): void {
-    this.isCollapsedNav = !this.isCollapsedNav;
-  }
-
-  toggleCollapsedDropDown(): void {
-    this.isCollapsedDropDown = !this.isCollapsedDropDown;
   }
 
   initializeForm() {

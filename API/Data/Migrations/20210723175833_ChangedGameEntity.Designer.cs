@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210723175833_ChangedGameEntity")]
+    partial class ChangedGameEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,6 +134,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Answer")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("GameTypeId")
                         .HasColumnType("INTEGER");
 
@@ -139,6 +144,8 @@ namespace API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("GameTypeId");
 
@@ -282,6 +289,10 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Game", b =>
                 {
+                    b.HasOne("API.Entities.AppUser", null)
+                        .WithMany("Games")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("API.Entities.GameType", "GameType")
                         .WithMany()
                         .HasForeignKey("GameTypeId")
@@ -353,6 +364,8 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("Games");
+
                     b.Navigation("Scores");
 
                     b.Navigation("UserRoles");

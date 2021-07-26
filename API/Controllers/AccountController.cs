@@ -39,7 +39,6 @@ namespace API.Controllers
             var user = new AppUser
             {
                 UserName = (registerDto.UserName).ToLower(),
-                Games = new List<Game>(),
                 Scores = new List<Score>()
             };
 
@@ -60,6 +59,7 @@ namespace API.Controllers
 
             return new UserDto
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Token = await _tokenService.CreateToken(user)
             };
@@ -85,6 +85,7 @@ namespace API.Controllers
 
             return new UserDto
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Token = await _tokenService.CreateToken(user)
             };

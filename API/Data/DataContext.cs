@@ -15,7 +15,8 @@ namespace API.Data
         }
 
         public DbSet<Game> Games { get; set; }
-        public DbSet<HangMan> HangMans { get; set; }
+
+        public DbSet<GameType> GameTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -47,10 +48,6 @@ namespace API.Data
                 .WithMany(u => u.Scores)
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<Game>()
-                .HasDiscriminator<string>("game_type")
-                .HasValue<HangMan>("hangman");
         }
     }
 }
