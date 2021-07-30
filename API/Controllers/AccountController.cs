@@ -39,7 +39,6 @@ namespace API.Controllers
             var user = new AppUser
             {
                 UserName = (registerDto.UserName).ToLower(),
-                Scores = new List<Score>()
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);

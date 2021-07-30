@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.setCurrentUser();
+    this.gameService.getGames().subscribe();
   }
 
   setCurrentUser() {

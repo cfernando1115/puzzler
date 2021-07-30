@@ -18,6 +18,8 @@ namespace API.Data
 
         public DbSet<GameType> GameTypes { get; set; }
 
+        public DbSet<Score> Scores { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -33,21 +35,6 @@ namespace API.Data
                 .WithOne(ur => ur.Role)
                 .HasForeignKey(r => r.RoleId)
                 .IsRequired();
-
-            builder.Entity<Score>()
-                .HasKey(k => new { k.GameId, k.UserId });
-
-            builder.Entity<Score>()
-                .HasOne(s => s.Game)
-                .WithMany(g => g.Scores)
-                .HasForeignKey(s => s.GameId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<Score>()
-                .HasOne(s => s.User)
-                .WithMany(u => u.Scores)
-                .HasForeignKey(s => s.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

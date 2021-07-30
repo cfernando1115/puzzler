@@ -20,6 +20,9 @@ import { ExpandedDirective } from './_directives/expanded.directive';
 import { ShowDirective } from './_directives/show.directive';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { AddGameComponent } from './admin/add-game/add-game.component';
+import { GameComponent } from './game/game.component';
+import { HangmanComponent } from './game/hangman/hangman.component';
+import { DisabledDirective } from './_directives/disabled.directive';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { AddGameComponent } from './admin/add-game/add-game.component';
     ExpandedDirective,
     ShowDirective,
     AddGameComponent,
+    GameComponent,
+    HangmanComponent,
+    DisabledDirective,
   ],
   imports: [
     BsDropdownModule.forRoot(),

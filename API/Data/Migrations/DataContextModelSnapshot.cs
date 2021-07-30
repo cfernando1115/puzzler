@@ -161,20 +161,39 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Score", b =>
                 {
-                    b.Property<int>("GameId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Total")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("GameId", "UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Score");
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Scores");
+                });
+
+            modelBuilder.Entity("AppUserGame", b =>
+                {
+                    b.Property<int>("GamesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("GamesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AppUserGame");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -293,21 +312,26 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Score", b =>
                 {
-                    b.HasOne("API.Entities.Game", "Game")
+                    b.HasOne("API.Entities.Game", null)
                         .WithMany("Scores")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("API.Entities.AppUser", "User")
-                        .WithMany("Scores")
-                        .HasForeignKey("UserId")
+            modelBuilder.Entity("AppUserGame", b =>
+                {
+                    b.HasOne("API.Entities.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Game");
-
-                    b.Navigation("User");
+                    b.HasOne("API.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -353,8 +377,6 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("Scores");
-
                     b.Navigation("UserRoles");
                 });
 

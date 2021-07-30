@@ -39,5 +39,17 @@ namespace API.Data
 
             await userManager.AddToRoleAsync(admin, "Admin");
         }
+
+        public static async Task SeedGameTypes(DataContext context)
+        {
+            if(await context.GameTypes.AnyAsync())
+            {
+                return;
+            }
+
+            context.GameTypes.Add(new GameType { Name = "Hangman" });
+
+            await context.SaveChangesAsync();
+        }
     }
 }

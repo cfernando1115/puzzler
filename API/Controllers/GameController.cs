@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,19 +33,19 @@ namespace API.Controllers
         [HttpGet("user-games")]
         public async Task<ActionResult<UserGamesDto>> GetUserGames()
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var userId = User.GetUserId();
 
             IQueryable<Game> games = _context.Games
-                .Include(g => g.Scores)
-                .Include(g => g.GameType);
+                .Include(g => g.GameType)
+                .Include(g => g.Scores.Where(s => s.UserId == userId));
 
             return new UserGamesDto
             {
                 NewGames = await games
-                    .Where(g => !g.Scores.Any(s => s.UserId == userId))
+                    .Where(g => !g.Users.Any(u => u.Id == userId))
                     .ToListAsync(),
                 PlayedGames = await games
-                    .Where(g => g.Scores.Any(s => s.UserId == userId))
+                    .Where(g => g.Users.Any(u => u.Id == userId))
                     .ToListAsync()
             };
         }
@@ -78,5 +78,53 @@ namespace API.Controllers
             return await _context.GameTypes.ToListAsync();
         }
 
+        [HttpPost("add-user-game/{gameId}")]
+        public async Task<ActionResult<ScoreDto>> AddGameToUser(int gameId)
+        {
+            var user = await _context.Users.FindAsync(User.GetUserId());
+            var game = await _context.Games.SingleOrDefaultAsync(g => g.Id == gameId);
+
+            if(game != null)
+            {
+                var score = new Score
+                {
+                    UserId = user.Id,
+                    GameId = game.Id
+                };
+
+                game.Scores.Add(score);
+                user.Games.Add(game);
+
+                if(await _context.SaveChangesAsync() > 0)
+                {
+                    return new ScoreDto
+                    {
+                        Id = score.Id,
+                        GameId = score.GameId,
+                        UserId = score.UserId,
+                        Total = 0
+                    };
+                }
+            }
+
+            return BadRequest("Game not found");
+        }
+
+        [HttpPut("update-score")]
+        public async Task<ActionResult> updateGameScore([FromBody] Score updatedScore)
+        {
+            var score = _context.Scores.Find(updatedScore.Id);
+            
+            if(score != null) 
+            {
+                score.Total = updatedScore.Total;
+
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+
+            return BadRequest("Failed to update score");
+        }
     }
 }

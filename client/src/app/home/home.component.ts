@@ -17,8 +17,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.currentUser$.pipe(take(1)).subscribe(response => {
       this.user = response;
-      this.gameService.getGames().subscribe();
     })
   }
-
 }

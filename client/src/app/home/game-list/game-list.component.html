@@ -5,16 +5,22 @@
             <h3>New Games</h3>
             <ul class="list-group">
                 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
-                    *ngFor="let game of allGames?.newGames" href="#">
+                    *ngFor="let game of allGames?.newGames" routerLink='/game' [queryParams]="{ gameName: game.name }">
                         {{ game.name }}<span class="badge badge-primary badge-pill">{{ game.gameType.name.toUpperCase() }}</span></a>
             </ul>
         </div>
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-sm-12">
             <h3>Past Games</h3>
             <ul class="list-group">
                 <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
                 *ngFor="let game of allGames?.playedGames" href="#">
-                    {{ game.name }}<span class="badge badge-primary badge-pill">{{ game.gameType.name.toUpperCase() }}</span></a>            
+                <div class="col-2">
+                    {{ game.name }} 
+                </div>
+                <div>
+                    score: {{ game.scores[0].total }}
+                </div>
+                <span class="badge badge-primary badge-pill">{{ game.gameType.name.toUpperCase() }}</span></a>            
             </ul>
         </div>
     </div>

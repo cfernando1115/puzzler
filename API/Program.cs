@@ -32,6 +32,7 @@ namespace API
                 var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
                 await context.Database.MigrateAsync();
                 await Seed.SeedUsers(config, userManager, roleManager);
+                await Seed.SeedGameTypes(context);
             }
             catch(Exception ex)
             {

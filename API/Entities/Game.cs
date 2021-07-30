@@ -15,5 +15,7 @@ namespace API.Entities
         public int GameTypeId { get; set; }
 
         public List<Score> Scores { get; set; } = new List<Score>();
+
+        public List<AppUser> Users { get; set; } = new List<AppUser>();
     }
 }

@@ -6,6 +6,7 @@ import { Game } from '../_models/game';
 import { GameList } from '../_models/game-list';
 import { environment } from 'src/environments/environment';
 import { GameType } from '../_models/game-type';
+import { Score } from '../_models/score';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,13 @@ export class GameService {
       currentGames.newGames.push(newGame);
       this.currentGameSource.next(currentGames);
     })
+  }
+
+  addGameToUser(gameId: number) {
+    return this.http.post<Score>(`${this.baseUrl}Game/add-user-game/${gameId}`, {});
+  }
+
+  updateScore(score: Score) {
+    return this.http.put<String>(`${this.baseUrl}Game/update-score`, score);
   }
 }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210720151934_HangManAdded")]
-    partial class HangManAdded
+    [Migration("20210728174029_AmendedModel")]
+    partial class AmendedModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,41 +131,71 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<string>("Answer")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("GameTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("game_type")
-                        .IsRequired()
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameTypeId");
+
+                    b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("API.Entities.GameType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Games");
-
-                    b.HasDiscriminator<string>("game_type").HasValue("Game");
+                    b.ToTable("GameTypes");
                 });
 
             modelBuilder.Entity("API.Entities.Score", b =>
                 {
-                    b.Property<int>("GameId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Total")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("GameId", "UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Score");
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Scores");
+                });
+
+            modelBuilder.Entity("AppUserGame", b =>
+                {
+                    b.Property<int>("GamesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("GamesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AppUserGame");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -252,16 +282,6 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("API.Entities.HangMan", b =>
-                {
-                    b.HasBaseType("API.Entities.Game");
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("TEXT");
-
-                    b.HasDiscriminator().HasValue("hangman");
-                });
-
             modelBuilder.Entity("API.Entities.AppUserRole", b =>
                 {
                     b.HasOne("API.Entities.AppRole", "Role")
@@ -283,28 +303,37 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Game", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", null)
-                        .WithMany("Games")
-                        .HasForeignKey("AppUserId");
+                    b.HasOne("API.Entities.GameType", "GameType")
+                        .WithMany()
+                        .HasForeignKey("GameTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GameType");
                 });
 
             modelBuilder.Entity("API.Entities.Score", b =>
                 {
-                    b.HasOne("API.Entities.Game", "Game")
+                    b.HasOne("API.Entities.Game", null)
                         .WithMany("Scores")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("API.Entities.AppUser", "User")
-                        .WithMany("Scores")
-                        .HasForeignKey("UserId")
+            modelBuilder.Entity("AppUserGame", b =>
+                {
+                    b.HasOne("API.Entities.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Game");
-
-                    b.Navigation("User");
+                    b.HasOne("API.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -350,10 +379,6 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("Games");
-
-                    b.Navigation("Scores");
-
                     b.Navigation("UserRoles");
                 });
 

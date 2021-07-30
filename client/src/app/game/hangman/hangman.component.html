@@ -1,0 +1,22 @@
+<div class="container">
+    <p>Your current score reflects the number of guesses you have remaining!</p>
+    <button type="button" class="btn btn-primary" [disabled]="gameLoaded" (click)="loadGame()">Start Game</button>
+    <p class="text-danger"><small>Cheaters never win...don't refresh page after starting game!</small></p>
+    <div *ngIf="gameLoaded">
+        <h5 class="mt-3">Current Score: <span [ngClass]="{'text-danger': total < 3}">{{ total }}</span></h5>
+        <div class="row d-flex justify-content-center">
+            <div class="row mt-3 mr-0">
+                <h3 class="mx-3 text-primary" *ngFor="let letter of guessArray; let i = index;" [id]="i">{{ letter }}</h3>
+            </div>
+        </div>
+        <div class="row mt-3 mr-0" *ngIf="!gameOver">
+            <div class="col-1 mr-1 my-1" *ngFor="let letter of letters" (click)="selectLetter($event.target)">
+                <button appDisabled class="btn btn-outline-primary w-100 d-flex justify-content-center" [value]="letter"><span>{{ letter }}</span></button>
+            </div>
+        </div>
+        <div *ngIf="gameOver">
+            <h5>{{ gameMessage }}</h5>
+        </div>
+    </div>
+</div>
+
