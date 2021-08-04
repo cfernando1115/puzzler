@@ -10,11 +10,10 @@ import { GameService } from './_services/game.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private gameService: GameService) { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit() {
     this.setCurrentUser();
-    this.gameService.getGames().subscribe();
   }
 
   setCurrentUser() {

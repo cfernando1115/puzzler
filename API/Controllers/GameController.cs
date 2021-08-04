@@ -50,6 +50,7 @@ namespace API.Controllers
             };
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         [HttpPost("add-game")]
         public async Task<ActionResult<Game>> AddGame(GameDto gameDto)
         {

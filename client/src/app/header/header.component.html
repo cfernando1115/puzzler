@@ -5,22 +5,24 @@
     </button>
     <div class="collapse navbar-collapse show-me">
       <ul class="navbar-nav mr-auto pt-2">
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{exact: true}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/admin" [routerLinkActiveOptions]="{exact: true}">Admin</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">Profile</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" appShow appExpanded style="cursor: pointer;" id="games" aria-haspopup="true" >Games</a>
-          <div class="dropdown-menu show-me" aria-labelledby="games" >
-            <a class="dropdown-item" href="#">Hangman</a>
-            <a class="dropdown-item" href="#">Another Game</a>
-          </div>
-        </li>
+        <ng-container *ngIf="(accountService.currentUser$ | async) != null">
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{exact: true}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *appRole="['Admin']" routerLinkActive="active" routerLink="/admin" [routerLinkActiveOptions]="{exact: true}">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Profile</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" appShow appExpanded style="cursor: pointer;" id="games" aria-haspopup="true" >Games</a>
+            <div class="dropdown-menu show-me" aria-labelledby="games" >
+              <a class="dropdown-item" href="#">Hangman</a>
+              <a class="dropdown-item" href="#">Another Game</a>
+            </div>
+          </li>
+        </ng-container>
       </ul>
       <form class="form-inline row my-2 my-lg-0 mr-2 ml-2" [formGroup]="loginForm">
         <ng-container *ngIf="(this.accountService.currentUser$ | async) === null">
@@ -35,5 +37,4 @@
     </div>
   </nav>
 
-  <!--<span class="sr-only">(current)</span>-->
 

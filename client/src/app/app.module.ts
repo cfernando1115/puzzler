@@ -23,6 +23,7 @@ import { AddGameComponent } from './admin/add-game/add-game.component';
 import { GameComponent } from './game/game.component';
 import { HangmanComponent } from './game/hangman/hangman.component';
 import { DisabledDirective } from './_directives/disabled.directive';
+import { RoleDirective } from './_directives/role.directive';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { DisabledDirective } from './_directives/disabled.directive';
     GameComponent,
     HangmanComponent,
     DisabledDirective,
+    RoleDirective,
   ],
   imports: [
     BsDropdownModule.forRoot(),

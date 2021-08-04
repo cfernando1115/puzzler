@@ -26,6 +26,14 @@ namespace API.Extensions
                     };
                 });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdmin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+            });
+
             services.AddIdentityCore<AppUser>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
