@@ -1,4 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { GameType } from '../_models/game-type';
 import { GameService } from '../_services/game.service';
@@ -9,19 +10,10 @@ import { GameService } from '../_services/game.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  gameTypes: GameType[] = [];
 
-  constructor(private gameService: GameService) { }
+  constructor( private gameService: GameService ) { }
 
   ngOnInit(): void {
-    this.getGameTypes();
-  }
-
-  getGameTypes() {
-    this.gameService.getGameTypes().pipe(
-      map((response: GameType[]) => {
-        this.gameTypes = response;
-      })
-    ).subscribe();
+    this.gameService.getGames().subscribe();
   }
 }

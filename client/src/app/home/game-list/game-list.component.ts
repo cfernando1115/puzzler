@@ -16,7 +16,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
-    this.gameSubscription = this.gameService.currentGame$.subscribe((gameList: GameList) => {
+    this.gameSubscription = this.gameService.userGames$.subscribe((gameList: GameList) => {
       this.allGames = gameList;
     })
   }

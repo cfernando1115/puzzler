@@ -26,7 +26,7 @@ export class GameComponent implements OnInit {
     })
 
     this.route.queryParams.subscribe(params => {
-      this.gameService.currentGame$.pipe(take(1)).subscribe(games => {
+      this.gameService.userGames$.pipe(take(1)).subscribe(games => {
         this.game = games.newGames.find(g => g.name === params.gameName);
       })
     })
@@ -35,7 +35,9 @@ export class GameComponent implements OnInit {
   addGameToUser(event: boolean) {
     this.gameService.addGameToUser(this.game.id).subscribe(score => {
       this.score = score;
-      this.gameService.getGames().subscribe();
+      
+      //on cheater-refresh, game will be marked as played
+      this.gameService.getUserGames().subscribe();
     })
   }
 
@@ -43,11 +45,9 @@ export class GameComponent implements OnInit {
     if (this.score.total != newTotal) {
       this.score.total = newTotal;
       this.gameService.updateScore(this.score).subscribe(() => {
-        this.gameService.getGames().subscribe();
+        this.gameService.getUserGames().subscribe();
       }, error => {
-        error instanceof Object
-        ? this.toastr.error(error.error)
-        : this.toastr.error(error);
+        this.toastr.error(error.error);
       });
     }
   }

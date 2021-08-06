@@ -27,7 +27,7 @@ export class AccountService {
           localStorage.setItem('user', JSON.stringify(user));
           this.setCurrentUser(user);
           this.currentUserSource.next(user);
-          this.gameService.getGames().subscribe();
+          this.gameService.getUserGames().subscribe();
         }
       })
     )
@@ -39,8 +39,9 @@ export class AccountService {
         const user = response;
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
+          this.setCurrentUser(user);
           this.currentUserSource.next(user);
-          this.gameService.getGames().subscribe();
+          this.gameService.getUserGames().subscribe();
         }
       })
     )
@@ -61,7 +62,7 @@ export class AccountService {
     
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
-    this.gameService.getGames().subscribe();
+    this.gameService.getUserGames().subscribe();
   }
 
   getToken(token) {

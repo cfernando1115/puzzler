@@ -34,7 +34,9 @@ namespace API
         {
             services.AddApplicationServices(_config);
             services.AddIdentityServices(_config);
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddCors();
             services.AddSwaggerGen(c =>
             {

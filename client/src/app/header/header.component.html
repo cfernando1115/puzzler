@@ -10,16 +10,13 @@
             <a class="nav-link" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{exact: true}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" *appRole="['Admin']" routerLinkActive="active" routerLink="/admin" [routerLinkActiveOptions]="{exact: true}">Admin</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link">Profile</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" appShow appExpanded style="cursor: pointer;" id="games" aria-haspopup="true" >Games</a>
-            <div class="dropdown-menu show-me" aria-labelledby="games" >
-              <a class="dropdown-item" href="#">Hangman</a>
-              <a class="dropdown-item" href="#">Another Game</a>
+            <a *appRole="['Admin']" class="nav-link dropdown-toggle" appShow appExpanded style="cursor: pointer;" id="admin" aria-haspopup="true" >Admin</a>
+            <div class="dropdown-menu show-me" appShow aria-labelledby="admin" >
+              <a class="dropdown-item" routerLinkActive="active" routerLink="/admin/games" [routerLinkActiveOptions]="{exact: true}">Games</a>
+              <a class="dropdown-item" routerLinkActive="active" routerLink="/admin/users" [routerLinkActiveOptions]="{exact: true}">Users</a>
             </div>
           </li>
         </ng-container>

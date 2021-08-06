@@ -5,6 +5,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ namespace API.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {

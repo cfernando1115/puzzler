@@ -35,6 +35,11 @@ namespace API.Data
                 .WithOne(ur => ur.Role)
                 .HasForeignKey(r => r.RoleId)
                 .IsRequired();
+
+            builder.Entity<AppUser>()
+                .HasMany(u => u.Scores)
+                .WithOne(s => s.User)
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

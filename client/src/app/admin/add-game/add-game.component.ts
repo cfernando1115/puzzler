@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Game } from 'src/app/_models/game';
 import { GameType } from 'src/app/_models/game-type';
 import { GameService } from 'src/app/_services/game.service';
 
@@ -24,15 +23,12 @@ export class AddGameComponent implements OnInit {
   }
 
   addGame() {
-    this.gameService.createGame(this.game).subscribe(game => {
-      this.gameService.addGame(game);
+    this.gameService.createGame(this.game).subscribe(() => {
       this.game = {
         gameTypeId: 1
       };
     }, error => {
-      error instanceof Object
-        ? this.toastr.error(error.error)
-        : this.toastr.error(error);
+      console.log(error.error);
     });
   }
 

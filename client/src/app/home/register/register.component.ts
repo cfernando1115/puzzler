@@ -41,9 +41,8 @@ export class RegisterComponent implements OnInit {
     this.accountService.register(this.registerForm.value).subscribe(response => {
       console.log(response);
     }, error => {
-      error instanceof Object
-        ? this.toastr.error(error.error)
-        : this.toastr.error(error);
+      this.toastr.error(error.error);
+      
     })
   }
 

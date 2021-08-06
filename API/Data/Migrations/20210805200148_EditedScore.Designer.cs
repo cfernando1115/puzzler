@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210805200148_EditedScore")]
+    partial class EditedScore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,9 +170,6 @@ namespace API.Data.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("GameName")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Total")
                         .HasColumnType("INTEGER");
 
@@ -327,7 +326,7 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "User")
-                        .WithMany("Scores")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -395,8 +394,6 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("Scores");
-
                     b.Navigation("UserRoles");
                 });
 

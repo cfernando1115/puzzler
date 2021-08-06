@@ -21,13 +21,33 @@ namespace API.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
             return await _context.Games
-                .Include(g => g.Scores)
                 .Include(g => g.GameType)
                 .ToListAsync();
+        }
+
+        [Authorize(Policy = "RequireAdmin")]
+        [HttpGet("{gameId}")]
+        public async Task<ActionResult<GameDetailDto>> GetGame(int gameId)
+        {
+            var game = await _context.Games
+                .Where(g => g.Id == gameId)
+                .Include(g => g.GameType)
+                .Include(g => g.Scores)
+                .SingleOrDefaultAsync();
+
+            return new GameDetailDto
+            {
+                Id = game.Id,
+                Name = game.Name,
+                Answer = game.Answer,
+                GameType = game.GameType,
+                Scores = game.Scores
+            };
         }
 
         [HttpGet("user-games")]
@@ -89,8 +109,9 @@ namespace API.Controllers
             {
                 var score = new Score
                 {
-                    UserId = user.Id,
-                    GameId = game.Id
+                    User = user,
+                    Game = game,
+                    UserName = user.UserName
                 };
 
                 game.Scores.Add(score);
@@ -112,7 +133,7 @@ namespace API.Controllers
         }
 
         [HttpPut("update-score")]
-        public async Task<ActionResult> updateGameScore([FromBody] Score updatedScore)
+        public async Task<ActionResult> UpdateGameScore([FromBody] Score updatedScore)
         {
             var score = _context.Scores.Find(updatedScore.Id);
             
@@ -126,6 +147,23 @@ namespace API.Controllers
             }
 
             return BadRequest("Failed to update score");
+        }
+
+        [HttpDelete("{gameId}")]
+        public async Task<ActionResult> DeleteGame(int gameId)
+        {
+            var game = await _context.Games.FindAsync(gameId);
+
+            if(game == null)
+            {
+                return BadRequest("Game does not exist");
+            }
+
+            _context.Games.Remove(game);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

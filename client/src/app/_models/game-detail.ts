@@ -1,9 +1,10 @@
+import { GameType } from "./game-type";
 import { Score } from "./score";
 
-export interface Game {
+export interface GameDetail {
     id: number;
     name: string;
     answer: string;
-    gameTypeId: number;
+    gameType: GameType;
     scores: Score[];
 }

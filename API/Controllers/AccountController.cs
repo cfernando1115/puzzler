@@ -38,7 +38,7 @@ namespace API.Controllers
 
             var user = new AppUser
             {
-                UserName = (registerDto.UserName).ToLower(),
+                UserName = (registerDto.UserName)
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -92,7 +92,7 @@ namespace API.Controllers
 
         private async Task<bool> UserExists(string username)
         {
-            return await _userManager.Users.AnyAsync(u => u.UserName == username.ToLower());
+            return await _userManager.Users.AnyAsync(u => u.UserName.ToLower() == username.ToLower());
         }
     }
 }
