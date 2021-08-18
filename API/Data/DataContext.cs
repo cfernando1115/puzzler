@@ -24,6 +24,9 @@ namespace API.Data
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Score>()
+                .HasKey(k => new { k.UserId, k.GameId });
+
             builder.Entity<AppUser>()
                 .HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)
@@ -39,7 +42,8 @@ namespace API.Data
             builder.Entity<AppUser>()
                 .HasMany(u => u.Scores)
                 .WithOne(s => s.User)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
+

@@ -21,7 +21,7 @@ export class GameService {
   constructor(private http: HttpClient) { }
 
   getGames() {
-    return this.http.get<Game[]>(`${this.baseUrl}Game/`).pipe(
+    return this.http.get<Game[]>(`${this.baseUrl}Games/`).pipe(
       map((response: Game[]) => {
         this.currentGameSource.next(response);
       })
@@ -29,11 +29,11 @@ export class GameService {
   }
 
   getGame(gameId: number) {
-    return this.http.get(`${this.baseUrl}Game/${gameId}`);
+    return this.http.get(`${this.baseUrl}Games/${gameId}`);
   }
 
   getUserGames() {
-    return this.http.get(`${this.baseUrl}Game/user-games`).pipe(
+    return this.http.get(`${this.baseUrl}Games/user-games`).pipe(
       map((response: GameList) => {
         this.userGameSource.next(response);
       })
@@ -41,11 +41,11 @@ export class GameService {
   }
 
   getGameTypes() {
-    return this.http.get(`${this.baseUrl}Game/game-types`);
+    return this.http.get(`${this.baseUrl}GameTypes/`);
   }
 
   createGame(newGame: Game) {
-    return this.http.post<Game>(`${this.baseUrl}Game/add-game`, newGame).pipe(
+    return this.http.post<Game>(`${this.baseUrl}Games/add-game`, newGame).pipe(
       map((response: Game) => {
         this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
           this.currentGameSource.next([...games, response]);
@@ -76,15 +76,15 @@ export class GameService {
   }
 
   addGameToUser(gameId: number) {
-    return this.http.post<Score>(`${this.baseUrl}Game/add-user-game/${gameId}`, {});
+    return this.http.post<Score>(`${this.baseUrl}Games/add-user-game/${gameId}`, {});
   }
 
   updateScore(score: Score) {
-    return this.http.put<String>(`${this.baseUrl}Game/update-score`, score);
+    return this.http.put<String>(`${this.baseUrl}Games/update-score`, score);
   }
 
   deleteGame(gameId: number) {
-    return this.http.delete(`${this.baseUrl}Game/${gameId}`).pipe(
+    return this.http.delete(`${this.baseUrl}Games/${gameId}`).pipe(
       map(() => {
         this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
           const updatedGames = games.filter(game => {

@@ -1,18 +1,22 @@
 using System.Collections.Generic;
-using API.Entities;
 
 namespace API.DTOs
 {
-    public class GameDto
+    public class NewGameDto
     {
         public string Name { get; set; }
 
         public string Answer { get; set; }
 
-        public GameType GameType { get; set; }
+        public GameTypeDto GameType { get; set; }
 
         public int GameTypeId { get; set; }
 
-        public List<Score> Scores { get; set; }
+        public IList<ScoreDto> Scores { get; set; } = new List<ScoreDto>();
+    }
+
+    public class GameDto: NewGameDto
+    {
+        public int Id { get; set; }
     }
 }

@@ -138,6 +138,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameTypeId");
@@ -161,8 +164,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Score", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("GameId")
@@ -174,17 +176,12 @@ namespace API.Data.Migrations
                     b.Property<int>("Total")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "GameId");
 
                     b.HasIndex("GameId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Scores");
                 });

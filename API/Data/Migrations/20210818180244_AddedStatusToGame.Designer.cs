@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210805200148_EditedScore")]
-    partial class EditedScore
+    [Migration("20210818180244_AddedStatusToGame")]
+    partial class AddedStatusToGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,6 +140,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameTypeId");
@@ -163,27 +166,24 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Score", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Total")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("GameName")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("Total")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "GameId");
 
                     b.HasIndex("GameId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Scores");
                 });
@@ -326,7 +326,7 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "User")
-                        .WithMany()
+                        .WithMany("Scores")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -394,6 +394,8 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("Scores");
+
                     b.Navigation("UserRoles");
                 });
 

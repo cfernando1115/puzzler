@@ -216,15 +216,21 @@ namespace API.Data.Migrations
                 name: "Scores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Total = table.Column<int>(type: "INTEGER", nullable: false),
                     GameId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Total = table.Column<int>(type: "INTEGER", nullable: false),
+                    GameName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Scores", x => x.Id);
+                    table.PrimaryKey("PK_Scores", x => new { x.UserId, x.GameId });
+                    table.ForeignKey(
+                        name: "FK_Scores_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Scores_Games_GameId",
                         column: x => x.GameId,

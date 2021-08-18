@@ -2,13 +2,13 @@
 
 namespace API.Data.Migrations
 {
-    public partial class EditUser : Migration
+    public partial class AddedStatusToGame : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "GameName",
-                table: "Scores",
+                name: "Status",
+                table: "Games",
                 type: "TEXT",
                 nullable: true);
         }
@@ -16,8 +16,8 @@ namespace API.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "GameName",
-                table: "Scores");
+                name: "Status",
+                table: "Games");
         }
     }
 }

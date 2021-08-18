@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { GameService } from '../_services/game.service';
