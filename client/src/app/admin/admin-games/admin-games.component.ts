@@ -1,9 +1,11 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Game } from 'src/app/_models/game';
-import { GameDetail } from 'src/app/_models/game-detail';
 import { GameType } from 'src/app/_models/game-type';
+import { ReqRes } from 'src/app/_models/reqres';
 import { GameService } from 'src/app/_services/game.service';
 
 @Component({
@@ -12,19 +14,21 @@ import { GameService } from 'src/app/_services/game.service';
   styleUrls: ['./admin-games.component.css']
 })
 export class AdminGamesComponent implements OnInit, OnDestroy {
-  games: Game[];
+  currentGames: Game[];
+  archivedGames: Game[];
   modalRef: BsModalRef;
   @ViewChild('gameDetailModal') gameDetailModal: TemplateRef<any>;
-  game: GameDetail;
-  gameSubscription: any;
+  game: Game;
+  gameSubscription: Subscription;
   @Input()gameTypes: GameType[] = [];
 
 
-  constructor(private gameService: GameService, private modalService: BsModalService) { }
+  constructor(private gameService: GameService, private modalService: BsModalService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.gameSubscription = this.gameService.currentGames$.subscribe((games: Game[]) => {
-      this.games = games;
+      this.currentGames = games.filter(g => g.status === 'active');
+      this.archivedGames = games.filter(g => g.status === 'archived');
     })
 
     this.getGameTypes();
@@ -39,16 +43,29 @@ export class AdminGamesComponent implements OnInit, OnDestroy {
   }
 
   getGame(gameId: number) {
-    this.gameService.getGame(gameId).subscribe((game: GameDetail) => {
+    this.gameService.getGame(gameId).subscribe((game: Game) => {
       this.game = game;
-      console.log(this.game);
       this.game.scores.sort((a, b) => b.total - a.total);
       this.openModal(this.gameDetailModal);
+    }, error => {
+      console.log(error.error);
     })
   }
 
   deleteGame(gameId: number) {
-    this.gameService.deleteGame(gameId).subscribe();
+    this.gameService.deleteGame(gameId).subscribe((response: ReqRes) => {
+      this.toastr.success(response.message);
+    }, error => {
+      this.toastr.error(error.error);
+    });
+  }
+
+  updateGameStatus(gameId: number) {
+    this.gameService.updateGameStatus(gameId).subscribe((response: ReqRes) => {
+      this.toastr.success(response.message);
+    }, error => {
+      this.toastr.error(error.error);
+    });
   }
 
   openModal(template: TemplateRef<any>) {

@@ -5,24 +5,34 @@
             <div class="form-group row">
                 <label for="gameTypeId" class="col-sm-2 col-form-label">Game Type</label>
                 <div class="col-sm-10">
-                <select #gameTypeSelect class="form-control" name="gameTypeId" [(ngModel)]="game.gameTypeId" (change)="setGameTypeId($event.target.value)">
-                    <option [value]="type.id" *ngFor="let type of gameTypes">{{ type.name }}</option>
+                <select 
+                    *ngFor="let type of gameTypes" 
+                    #gameTypeSelect 
+                    class="form-control" 
+                    name="gameTypeId" 
+                    ngModel 
+                    [ngModel]="defaultGameTypeId" 
+                    (change)="setGameTypeId()"
+                    [attr.data-name]="type.name">
+                        <option [value]="type.id">{{ type.name }}</option>
                 </select>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="name" [(ngModel)]="game.name" />
+                    <input class="form-control" type="text" name="name" ngModel #name="ngModel" required/>
+                    <span class="text-danger" *ngIf="name.invalid && name.touched">Name is required</span>
                 </div>
             </div>
-            <div class="form-group row" *ngIf="game.gameTypeId === 1">
+            <div class="form-group row" *ngIf="gameTypeId === 1">
                 <label for="answer" class="col-sm-2 col-form-label">Answer</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="answer" [(ngModel)]="game.answer" />
+                    <input class="form-control" type="text" name="answer" ngModel #answer="ngModel" required/>
+                    <span class="text-danger" *ngIf="answer.invalid && answer.touched">Answer is required</span>
                 </div>
             </div>
-            <button class="btn btn-success mr-2" type="submit">Submit</button>
+            <button [disabled]="newGameForm.invalid" class="btn btn-success mr-2" type="submit">Submit</button>
         </form><br><br>
     </div>
 </div>

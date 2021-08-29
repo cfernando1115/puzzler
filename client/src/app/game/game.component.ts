@@ -7,6 +7,7 @@ import { Score } from '../_models/score';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { GameService } from '../_services/game.service';
+import { ReqRes } from '../_models/reqres';
 
 @Component({
   selector: 'app-game',
@@ -44,7 +45,8 @@ export class GameComponent implements OnInit {
   updateScore(newTotal: number) {
     if (this.score.total != newTotal) {
       this.score.total = newTotal;
-      this.gameService.updateScore(this.score).subscribe(() => {
+      this.gameService.updateScore(this.score).subscribe((response: ReqRes) => {
+        this.toastr.success(response.message);
         this.gameService.getUserGames().subscribe();
       }, error => {
         this.toastr.error(error.error);

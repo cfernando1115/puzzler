@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { GameList } from 'src/app/_models/game-list';
 import { User } from 'src/app/_models/user';
 import { GameService } from 'src/app/_services/game.service';
@@ -11,7 +12,7 @@ import { GameService } from 'src/app/_services/game.service';
 export class GameListComponent implements OnInit, OnDestroy {
   allGames: GameList;
   @Input() user: User;
-  gameSubscription: any;
+  gameSubscription: Subscription;
 
   constructor(private gameService: GameService) { }
 

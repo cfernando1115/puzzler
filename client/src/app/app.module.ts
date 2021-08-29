@@ -26,6 +26,7 @@ import { DisabledDirective } from './_directives/disabled.directive';
 import { RoleDirective } from './_directives/role.directive';
 import { AdminGamesComponent } from './admin/admin-games/admin-games.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
+import { UserDetailComponent } from './admin/admin-users/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
     RoleDirective,
     AdminGamesComponent,
     AdminUsersComponent,
+    UserDetailComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),

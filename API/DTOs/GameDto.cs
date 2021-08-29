@@ -8,7 +8,9 @@ namespace API.DTOs
 
         public string Answer { get; set; }
 
-        public GameTypeDto GameType { get; set; }
+        public string Status { get; set; }
+
+        public string GameTypeName { get; set; }
 
         public int GameTypeId { get; set; }
 
@@ -18,5 +20,6 @@ namespace API.DTOs
     public class GameDto: NewGameDto
     {
         public int Id { get; set; }
+
     }
 }

@@ -19,10 +19,11 @@ const routes: Routes = [
         path: 'admin', component: AdminComponent, canActivate: [AdminGuard], children:
         [
           { path: 'games', component: AdminGamesComponent, canActivate: [AdminGuard] },
+          { path: 'users/:id', component: AdminUsersComponent, canActivate: [AdminGuard] },
           { path: 'users', component: AdminUsersComponent, canActivate: [AdminGuard] },
         ]
       },
-      { path: 'game', component: GameComponent}
+      { path: 'game', component: GameComponent },
     ]
   }
 ];

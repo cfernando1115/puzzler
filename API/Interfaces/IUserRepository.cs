@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -7,6 +8,8 @@ namespace API.Interfaces
 {
     public interface IUserRepository : IRepository<AppUser>
     {
-        Task<ActionResult<UserGamesDto>> GetUserGames(int userId);
+        Task<UserGamesDto> GetUserGames(int userId);
+
+        Task<IEnumerable<PlayerDto>> GetPlayers();
     }
 }

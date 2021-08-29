@@ -8,8 +8,6 @@ namespace API.DTOs
 
         public string UserName { get; set; }
 
-        public IList<GameDto> Games { get; set; }
-
         public IList<ScoreDto> Scores { get; set; }
     }
 }

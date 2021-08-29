@@ -6,6 +6,7 @@ import { Game } from '../_models/game';
 import { GameList } from '../_models/game-list';
 import { environment } from 'src/environments/environment';
 import { Score } from '../_models/score';
+import { ReqRes } from '../_models/reqres';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +22,11 @@ export class GameService {
   constructor(private http: HttpClient) { }
 
   getGames() {
-    return this.http.get<Game[]>(`${this.baseUrl}Games/`).pipe(
+    return this.http.get<Game[]>(`${this.baseUrl}Games`).pipe(
       map((response: Game[]) => {
         this.currentGameSource.next(response);
       })
-    )
+    );
   }
 
   getGame(gameId: number) {
@@ -37,11 +38,11 @@ export class GameService {
       map((response: GameList) => {
         this.userGameSource.next(response);
       })
-    )
+    );
   }
 
   getGameTypes() {
-    return this.http.get(`${this.baseUrl}GameTypes/`);
+    return this.http.get(`${this.baseUrl}GameTypes`);
   }
 
   createGame(newGame: Game) {
@@ -53,7 +54,7 @@ export class GameService {
           this.addNewGameToUser(response);
           //or...
           //this.getUserGames().subscribe();
-        })
+        });
       })
     );
   }
@@ -63,7 +64,7 @@ export class GameService {
       const userGames = gameList;
       userGames.newGames.push(newGame);
       this.userGameSource.next(userGames);
-    })
+    });
   }
 
   deleteGameFromUser(gameId: number) {
@@ -71,8 +72,8 @@ export class GameService {
       const updatedGames = gameList.newGames.filter(game => {
         return game.id !== gameId;
       })
-      this.userGameSource.next({newGames: updatedGames, playedGames: gameList.playedGames});
-    })
+      this.userGameSource.next({ newGames: updatedGames, playedGames: gameList.playedGames });
+    });
   }
 
   addGameToUser(gameId: number) {
@@ -80,12 +81,12 @@ export class GameService {
   }
 
   updateScore(score: Score) {
-    return this.http.put<String>(`${this.baseUrl}Games/update-score`, score);
+    return this.http.put<ReqRes>(`${this.baseUrl}Games/update-score`, score);
   }
 
   deleteGame(gameId: number) {
-    return this.http.delete(`${this.baseUrl}Games/${gameId}`).pipe(
-      map(() => {
+    return this.http.delete<ReqRes>(`${this.baseUrl}Games/${gameId}`).pipe(
+      map((response: ReqRes) => {
         this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
           const updatedGames = games.filter(game => {
             return game.id !== gameId;
@@ -95,7 +96,23 @@ export class GameService {
           this.deleteGameFromUser(gameId);
           //or...
           //this.getUserGames().subscribe();
-        })
+        });
+        return response;
+      })
+    );
+  }
+
+  updateGameStatus(gameId: number) {
+    return this.http.put<ReqRes>(`${this.baseUrl}Games/change-status/${gameId}`, {}).pipe(
+      map((response: ReqRes) => {
+        this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
+          const updatedGameIndex = games.findIndex(g => g.id === +gameId);
+          const [updatedGame] = games.splice(updatedGameIndex, 1);
+          updatedGame.status = updatedGame.status == 'archived' ? 'active' : 'archived';
+          this.currentGameSource.next([...games, updatedGame]);
+          this.getUserGames().subscribe();
+        });
+        return response;
       })
     );
   }

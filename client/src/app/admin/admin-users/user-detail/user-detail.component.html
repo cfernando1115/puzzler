@@ -1,0 +1,19 @@
+<div class="row no-gutters mb-3">
+    <div class="card col-md-6 mb-3">
+        <div class="d-flex justify-content-center card-img-top">
+            <!--profile pic placeholder-->
+            <i class="fa fa-puzzle-piece p-3" style="font-size: 500%; color: grey;"></i>
+        </div>
+        <div class="card-body text-center">
+            <h5>{{ player.userName }}</h5>
+            <hr>
+            <p><b>Games:</b></p>
+            <p *ngFor="let score of player.scores">{{ score.gameName }} - Score: {{ score.total }}</p>
+        </div>
+        <div class="btn-group justify-content-center pb-3">
+            <button class="btn btn-danger"(click)="deletePlayer(player.id)">Delete</button>
+        </div>
+    </div>
+</div>
+<a class="btn btn-primary" [routerLink]="['/admin', 'users']">Go Back</a>
+

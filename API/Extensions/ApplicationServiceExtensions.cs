@@ -15,7 +15,8 @@ namespace API.Extensions
             {
                 services.AddDbContext<DataContext>(options =>
                 {
-                    options.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                    options.UseSqlite(config.GetConnectionString("DefaultConnection"),
+                        o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
                 });
 
                 services.AddScoped<ITokenService, TokenService>();

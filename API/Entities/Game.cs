@@ -13,10 +13,10 @@ namespace API.Entities
 
         public string Status { get; set; } = "active";
 
-        public GameType GameType { get; set; }
-
         [ForeignKey(nameof(GameType))]
         public int GameTypeId { get; set; }
+
+        public string GameTypeName { get; set; }
 
         public IList<Score> Scores { get; set; } = new List<Score>();
 
