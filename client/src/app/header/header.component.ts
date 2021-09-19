@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -12,11 +14,17 @@ export class HeaderComponent implements OnInit {
   title = 'Puzzler';
   loginForm: FormGroup;
   loggedIn = false;
+  user: User;
 
   constructor(public accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.accountService.currentUser$.pipe(
+      map(user => {
+        this.user = user;
+      })
+    ).subscribe();
   }
 
   initializeForm() {

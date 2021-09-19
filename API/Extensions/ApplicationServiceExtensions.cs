@@ -1,4 +1,5 @@
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Repository;
 using API.Services;
@@ -22,7 +23,11 @@ namespace API.Extensions
                 services.AddScoped<ITokenService, TokenService>();
                 services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            return services;
+                services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+
+                services.AddScoped<IPhotoService, PhotoService>();
+
+                return services;
             }
     }
 }

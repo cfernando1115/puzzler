@@ -23,7 +23,7 @@ namespace API.Repository
         public async Task<UserGamesDto> GetUserGames(int userId)
         {
             IQueryable<Game> games = _context.Games
-                .Include(g => g.Scores.Where(s => s.UserId == userId));
+                .Include(g => g.Scores);
 
             return new UserGamesDto
             {
@@ -38,7 +38,7 @@ namespace API.Repository
                         GameTypeId = g.GameTypeId,
                         GameTypeName = g.GameTypeName,
                         Status = g.Status,
-                        Scores = g.Scores.Select(s => new ScoreDto { 
+                        Scores = g.Scores.Where(s => s.UserId == userId).Select(s => new ScoreDto { 
                             Total = s.Total,
                             UserId = s.UserId,
                             GameId = s.GameId,
@@ -58,7 +58,7 @@ namespace API.Repository
                         GameTypeId = g.GameTypeId,
                         GameTypeName = g.GameTypeName,
                         Status = g.Status,
-                        Scores = g.Scores.Select(s => new ScoreDto { 
+                        Scores = g.Scores.Where(s => s.UserId == userId).Select(s => new ScoreDto { 
                             Total = s.Total,
                             UserId = s.UserId,
                             GameId = s.GameId,
@@ -74,12 +74,20 @@ namespace API.Repository
         {
             return await _context.Users
                 .Include(u => u.Scores)
+                .Include(u => u.Photo)
                 .Where(user => !user.UserRoles.Any(r => r.Role.Name == "Admin"))
                 .AsSingleQuery()
                 .Select(p => new PlayerDto
                 {
                     Id = p.Id,
                     UserName = p.UserName,
+                    Photo = p.Photo != null 
+                        ? new PhotoDto 
+                        {
+                            Id = p.Photo.Id,
+                            Url = p.Photo.Url
+                        }
+                        : null,
                     Scores = p.Scores.Select(s => new ScoreDto 
                     { 
                         Total = s.Total, 

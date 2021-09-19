@@ -9,5 +9,7 @@ namespace API.DTOs
         public string UserName { get; set; }
 
         public IList<ScoreDto> Scores { get; set; }
+
+        public PhotoDto Photo { get; set; }
     }
 }

@@ -12,7 +12,7 @@
 - [x] Role-based Functionality (Member, Admin)
 - [x] Jwt Authentication
 - [x] Game CRUD
-- [ ] Member CRUD
+- [x] Member CRUD
 - [x] Game Types: Hangman
 - [ ] Game Types: WordSearch
 - [ ] SignalR: Real-time Updates
@@ -25,14 +25,14 @@
 - [x] Role-based Functionality (Member, Admin)
 - [x] Member Functionality - Play Hangman
 - [ ] Member Functionality - Play WordSearch
-- [ ] Member Functionality - View Profile (past games, scores)
+- [x] Member Functionality - View Profile (past games, scores)
 - [x] Admin Functionality - Create Hangman
 - [ ] Admin Functionality - Create WordSearch
 - [x] Admin Functionality - View Game Detail
 - [x] Admin Functionality - Delete Game
-- [ ] Admin Functionality - Archive Game
-- [ ] Admin Functionality - View Member Detail
-- [ ] Admin functionality - Delete Member
+- [x] Admin Functionality - Archive Game
+- [x] Admin Functionality - View Member Detail
+- [x] Admin functionality - Delete Member
 
 ***
         

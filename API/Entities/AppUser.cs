@@ -10,5 +10,7 @@ namespace API.Entities
         public IList<Score> Scores { get; set; } = new List<Score>();
 
         public ICollection<AppUserRole> UserRoles { get; set; }
+
+        public Photo Photo { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace API.Controllers
             return Ok(gameDtos);
         }
 
-        [Authorize(Policy = "RequireAdmin")]
+        //[Authorize(Policy = "RequireAdmin")]
         [HttpGet("{gameId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]

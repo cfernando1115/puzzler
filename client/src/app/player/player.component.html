@@ -1,0 +1,24 @@
+<app-photo></app-photo>
+<div class="row">
+    <div class="col-md-6 col-sm-12 mb-4" *ngIf="!game">
+        <h3>Past Games</h3>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center cursor-pointer"
+                *ngFor="let game of playedGames" 
+                href="#"
+                [class.bg-warning]="game.status == 'archived'"
+                [ngClass]="{'pointer-none': game.status == 'archived'}"
+                (click)="loadGameDetail(game.id)">
+                <div>
+                    {{ game.name }} 
+                </div>
+                <div>
+                    score: {{ game.scores[0].total }}
+                </div>
+                <span class="badge badge-primary badge-pill">{{ game.gameTypeName.toUpperCase() }}</span></li>            
+        </ul>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <app-game-detail *ngIf="game" [game]="game" [userId]="userId" (gameCleared)="clearGameDetail($event)"></app-game-detail>
+    </div>
+</div>

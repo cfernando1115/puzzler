@@ -27,6 +27,10 @@ import { RoleDirective } from './_directives/role.directive';
 import { AdminGamesComponent } from './admin/admin-games/admin-games.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { UserDetailComponent } from './admin/admin-users/user-detail/user-detail.component';
+import { PlayerComponent } from './player/player.component';
+import { GameDetailComponent } from './player/game-detail/game-detail.component';
+import { PhotoComponent } from './player/photo/photo.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -46,6 +50,9 @@ import { UserDetailComponent } from './admin/admin-users/user-detail/user-detail
     AdminGamesComponent,
     AdminUsersComponent,
     UserDetailComponent,
+    PlayerComponent,
+    GameDetailComponent,
+    PhotoComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -57,7 +64,8 @@ import { UserDetailComponent } from './admin/admin-users/user-detail/user-detail
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ModalModule.forRoot(),
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' })
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
+    FileUploadModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
+using API.Entities;
+using API.Extensions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

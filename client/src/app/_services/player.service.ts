@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ReplaySubject } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, take } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Player } from "../_models/player";
 import { ReqRes } from "../_models/reqres";
@@ -27,8 +27,15 @@ export class PlayerService {
     deletePlayer(playerId: number) {
         return this.http.delete<ReqRes>(`${this.baseUrl}Users/${playerId}`).pipe(
             map((response: ReqRes) => {
+                this.currentPlayers$.pipe(take(1)).subscribe((players: Player[]) => {
+                    this.currentPlayerSource.next(players.filter(p => p.id !== playerId));
+                })
                 return response;
             })
         );
+    }
+
+    deletePhoto(photoId: number) {
+        return this.http.delete(`${this.baseUrl}Users/delete-photo/${photoId}`);
     }
 }

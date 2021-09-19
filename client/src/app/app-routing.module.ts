@@ -5,6 +5,7 @@ import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { AdminComponent } from './admin/admin.component';
 import { GameComponent } from './game/game.component';
 import { HomeComponent } from './home/home.component';
+import { PlayerComponent } from './player/player.component';
 import { AdminGuard } from './_guards/admin.guard';
 import { RouteGuard } from './_guards/route.guard';
 
@@ -24,6 +25,7 @@ const routes: Routes = [
         ]
       },
       { path: 'game', component: GameComponent },
+      { path: 'users/:id', component: PlayerComponent }
     ]
   }
 ];

@@ -10,7 +10,7 @@
             <a class="nav-link" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{exact: true}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Profile</a>
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/users',user.id]">Profile</a>
           </li>
           <li class="nav-item dropdown">
             <a *appRole="['Admin']" class="nav-link dropdown-toggle" appShow appExpanded style="cursor: pointer;" id="admin" aria-haspopup="true" >Admin</a>
@@ -29,7 +29,11 @@
           <input class="form-control mr-sm-2 col-5" type="password" formControlName="password" placeholder="password">
           <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" (click)="login()">Login</button>
         </ng-container>
-        <button *ngIf="(this.accountService.currentUser$ | async) != null" class="btn btn-outline-primary" style="margin-left: -10px;" type="submit" (click)="logout()">Logout</button>
+        <ng-container *ngIf="(this.accountService.currentUser$ | async) != null">
+          <img src="{{user.photo?.url || './assets/user.png'}}" alt="{{ user.userName }}" class="nav__img mr-2" />
+          <p class="mr-4 my-auto">Welcome {{ user.userName }}!</p>
+          <button class="btn btn-outline-primary" style="margin-left: -10px;" type="submit" (click)="logout()">Logout</button>
+        </ng-container>
       </form>
     </div>
   </nav>
