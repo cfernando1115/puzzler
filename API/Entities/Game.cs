@@ -11,6 +11,10 @@ namespace API.Entities
 
         public string Answer { get; set; }
 
+        public string Words { get; set; }
+
+        public string LettersGrid { get; set; }
+
         public string Status { get; set; } = "active";
 
         [ForeignKey(nameof(GameType))]

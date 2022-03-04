@@ -14,7 +14,7 @@
 - [x] Game CRUD
 - [x] Member CRUD
 - [x] Game Types: Hangman
-- [ ] Game Types: WordSearch
+- [x] Game Types: WordSearch
 - [ ] SignalR: Real-time Updates
 - [ ] Optimization
 - [ ] Production Db Migration
@@ -27,7 +27,7 @@
 - [ ] Member Functionality - Play WordSearch
 - [x] Member Functionality - View Profile (past games, scores)
 - [x] Admin Functionality - Create Hangman
-- [ ] Admin Functionality - Create WordSearch
+- [x] Admin Functionality - Create WordSearch
 - [x] Admin Functionality - View Game Detail
 - [x] Admin Functionality - Delete Game
 - [x] Admin Functionality - Archive Game

@@ -1,3 +1,29 @@
 input.ng-invalid.ng-touched {
     border: 1px solid red;
 }
+
+.word__container {
+    min-height: 200px;
+}
+
+.word-search__container {
+    background-color: #e6f1fb;
+}
+
+.icon__link {
+    cursor: pointer;
+}
+
+.letter__input {
+    height: 3rem; 
+    width: 3rem;
+}
+
+.highlight {
+    background-color: lightyellow;
+}
+
+.word--invalid {
+    color: red;
+}
+

@@ -9,8 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./hangman.component.css']
 })
 export class HangmanComponent implements OnInit {
-  letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  letters = environment.letters;
   @Input() game: Game;
   total: number;
   gameLoaded: boolean = false;

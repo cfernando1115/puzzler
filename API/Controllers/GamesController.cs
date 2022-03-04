@@ -100,6 +100,8 @@ namespace API.Controllers
                 Name = gameDto.Name,
                 GameTypeId = gameDto.GameTypeId,
                 Answer = gameDto.Answer,
+                LettersGrid = gameDto.LettersGrid,
+                Words = gameDto.Words,
                 Scores = new List<Score>(),
                 GameTypeName = gameDto.GameTypeName
             };

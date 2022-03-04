@@ -5,7 +5,12 @@
 export const environment = {
   production: false,
   baseUrl: 'https://localhost:5001/api/',
-  hangmanGuesses: 8
+  hangmanGuesses: 8,
+  letters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+  // wordSearchNumSquares: 10,
+  // wordSearchNumRows: 10,
+  wordSearchLetters: 100
 };
 
 /*

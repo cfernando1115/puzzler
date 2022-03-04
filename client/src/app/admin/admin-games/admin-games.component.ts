@@ -29,7 +29,7 @@ export class AdminGamesComponent implements OnInit, OnDestroy {
     this.gameSubscription = this.gameService.currentGames$.subscribe((games: Game[]) => {
       this.currentGames = games.filter(g => g.status === 'active');
       this.archivedGames = games.filter(g => g.status === 'archived');
-    })
+    });
 
     this.getGameTypes();
   }
@@ -49,7 +49,7 @@ export class AdminGamesComponent implements OnInit, OnDestroy {
       this.openModal(this.gameDetailModal);
     }, error => {
       console.log(error.error);
-    })
+    });
   }
 
   deleteGame(gameId: number) {
