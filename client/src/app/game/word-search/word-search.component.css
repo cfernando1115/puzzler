@@ -1,0 +1,32 @@
+.search__container {
+    height: 50vw;
+    width: 50vw;
+}
+
+.highlight {
+    background-color: lightyellow;
+}
+
+.correct {
+    background-color: rgb(168, 245, 168);
+}
+
+.incorrect {
+    background-color: #FFCCCB;
+}
+
+.found {
+    text-decoration: line-through;
+}
+
+.word-search__overlay {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

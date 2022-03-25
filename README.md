@@ -24,7 +24,7 @@
 - [x] Login/Signup Forms
 - [x] Role-based Functionality (Member, Admin)
 - [x] Member Functionality - Play Hangman
-- [ ] Member Functionality - Play WordSearch
+- [x] Member Functionality - Play WordSearch
 - [x] Member Functionality - View Profile (past games, scores)
 - [x] Admin Functionality - Create Hangman
 - [x] Admin Functionality - Create WordSearch

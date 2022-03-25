@@ -31,6 +31,7 @@ import { PlayerComponent } from './player/player.component';
 import { GameDetailComponent } from './player/game-detail/game-detail.component';
 import { PhotoComponent } from './player/photo/photo.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { WordSearchComponent } from './game/word-search/word-search.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     PlayerComponent,
     GameDetailComponent,
     PhotoComponent,
+    WordSearchComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),

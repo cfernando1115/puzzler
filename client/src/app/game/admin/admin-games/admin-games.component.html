@@ -1,0 +1,58 @@
+<app-add-game [gameTypes]="gameTypes"></app-add-game>
+<h3 class="mt-4">Current Games</h3>
+<div class="row no-gutters mb-3">
+    <div class="card col-md-3 mb-3" *ngFor="let game of currentGames">
+        <div class="d-flex justify-content-center card-img-top">
+            <i class="fa fa-puzzle-piece p-3" style="font-size: 500%; color: grey;"></i>
+        </div>
+        <div class="card-body text-center">
+            <h5>{{ game.name }}</h5>
+            <p>{{ game.gameTypeName }}</p>
+        </div>
+        <div class="btn-group justify-content-center pb-3">
+            <button class="btn btn-outline-primary mr-2" (click)="getGame(game.id)">Details</button>
+            <button class="btn btn-primary mr-2"(click)="updateGameStatus(game.id)">Archive</button>
+            <button class="btn btn-danger"(click)="deleteGame(game.id)">Delete</button>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-4">Archived Games</h3>
+<div class="row no-gutters mb-3">
+    <div class="card col-md-3 mb-3" *ngFor="let game of archivedGames" [class.bg-light]="game.status == 'archived'">
+        <div class="d-flex justify-content-center card-img-top">
+            <i class="fa fa-puzzle-piece p-3" style="font-size: 500%; color: grey;"></i>
+        </div>
+        <div class="card-body text-center">
+            <h5>{{ game.name }}</h5>
+            <p>{{ game.gameTypeName }}</p>
+        </div>
+        <div class="btn-group justify-content-center pb-3">
+            <button class="btn btn-outline-primary mr-2" (click)="getGame(game.id)">Details</button>
+            <button class="btn btn-primary mr-2"(click)="updateGameStatus(game.id)">Activate</button>
+            <button class="btn btn-danger"(click)="deleteGame(game.id)">Delete</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #gameDetailModal>
+    <div class="modal-header">
+       <h4 class="modal-title pull-left">{{ game.name }}</h4>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">×</span>
+       </button>
+    </div>
+    <div class="modal-body">
+        <h5>Game Type: {{ game.gameTypeName }}</h5>
+        <p>Answer: {{ game.answer }}</p>
+        <hr>
+        <h6>High Scores: </h6>
+        <div *ngFor="let score of game.scores; let i = index">
+            <p class="mb-0">{{ i + 1 }}. {{ score.userName }} {{ score.total }}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+  </ng-template>
+

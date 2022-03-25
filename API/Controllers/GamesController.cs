@@ -39,7 +39,9 @@ namespace API.Controllers
                     Answer = game.Answer,
                     Status = game.Status,
                     GameTypeId = game.GameTypeId,
-                    GameTypeName = game.GameTypeName
+                    GameTypeName = game.GameTypeName,
+                    LettersGrid = game.LettersGrid,
+                    Words = game.Words,
                 });
             }
 
@@ -67,6 +69,8 @@ namespace API.Controllers
                 Status = game.Status,
                 GameTypeId = game.GameTypeId,
                 GameTypeName = game.GameTypeName,
+                LettersGrid = game.LettersGrid,
+                Words = game.Words,
                 Scores = game.Scores.Select(s => new ScoreDto
                     {
                         Total = s.Total,

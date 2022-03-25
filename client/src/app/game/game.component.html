@@ -1,12 +1,21 @@
-<div class="container">
-    <h3>{{ game?.name }}</h3>
+<div class=" game__container">
+    <div class="container">
+        <h3>{{ game?.name }}</h3>
+    </div>
+    <div>
+        <app-hangman 
+            [game]="game" 
+            *ngIf="game && game.gameTypeId === 1" 
+            (gamePlayed)="addGameToUser($event)"
+            (scoreCalculated)="updateScore($event)">
+        </app-hangman>
+        <app-word-search
+            [game]="game"
+            *ngIf="game && game.gameTypeId === 2"
+            (gamePlayed)="addGameToUser($event)"
+            (scoreCalculated)="updateScore($event)">
+        </app-word-search>
+    </div>
 </div>
-<div>
-    <app-hangman 
-        [game]="game" 
-        *ngIf="game && game.gameTypeId === 1" 
-        (gamePlayed)="addGameToUser($event)"
-        (scoreCalculated)="updateScore($event)">
-    </app-hangman>
-</div>
+
 

@@ -1,0 +1,32 @@
+<div class="container">
+    <p>Your score is the amount of time it takes to find all of the words! (Time Limit: 30 minutes)</p>
+    <p><b>Directions: Select a word by clicking on its first and last letters</b></p>
+    <button type="button" class="btn btn-primary" [disabled]="gameLoaded" (click)="loadGame()">Start Game</button>
+    <p class="text-danger"><small>Cheaters never win...don't refresh page after starting game!</small></p>
+    <div *ngIf="gameLoaded">
+        <div class="row justify-content-between">
+            <h5 class="mt-3 mb-3 col-md-3 col-sm-6">Current Score: <span [ngClass]="{'text-danger': totalMin > 55 }">{{ totalMin}}:{{ totalSec }}</span></h5>
+            <h5 class="mt-3 col-8 pl-0" *ngIf="gameOver">{{ gameMessage }}</h5>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-12">
+                <h5>Word List</h5>
+                <p *ngFor="let wsWord of wordSearchWords" [ngClass]="{'found': wsWord.found}">{{ wsWord.word }}</p>
+            </div>
+            <div class="col-md-9 col-sm-12">
+                <div class="container-fluid d-flex flex-wrap search__container" #grid>
+                    <div *ngFor="let wsLetter of lettersArray; let i = index;" style="width: 10%;" class="p-1 embed-responsive embed-responsive-1by1">
+                        <input type="text" 
+                            readonly
+                            [disabled]="gameOver"
+                            [name]="'letter' + i" 
+                            (click)="selectLetter(i)"
+                            [value]="wsLetter.letter"
+                            class="form-control text-center embed-responsive-item cursor-pointer"
+                            [ngClass]="{'highlight': wsLetter.selected, 'correct': wsLetter.correct, 'incorrect': wsLetter.incorrect}" /> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

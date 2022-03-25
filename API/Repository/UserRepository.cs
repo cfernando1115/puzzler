@@ -37,6 +37,8 @@ namespace API.Repository
                         Answer = g.Answer,
                         GameTypeId = g.GameTypeId,
                         GameTypeName = g.GameTypeName,
+                        LettersGrid = g.LettersGrid,
+                        Words = g.Words,
                         Status = g.Status,
                         Scores = g.Scores.Where(s => s.UserId == userId).Select(s => new ScoreDto { 
                             Total = s.Total,
@@ -57,6 +59,8 @@ namespace API.Repository
                         Answer = g.Answer,
                         GameTypeId = g.GameTypeId,
                         GameTypeName = g.GameTypeName,
+                        LettersGrid = g.LettersGrid,
+                        Words = g.Words,
                         Status = g.Status,
                         Scores = g.Scores.Where(s => s.UserId == userId).Select(s => new ScoreDto { 
                             Total = s.Total,
