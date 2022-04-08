@@ -16,6 +16,7 @@ export class UserDetailComponent implements OnInit {
   constructor(private playerService: PlayerService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
+    console.log(this.player);
   }
 
   deletePlayer(playerId: number) {

@@ -18,6 +18,8 @@ export class GameDetailComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.userId = +params['id'];
     })
-    this.game.scores.sort((a, b) => b.total - a.total);
+    this.game.gameTypeName === 'Hangman'
+    ? this.game.scores.sort((a, b) => b.total - a.total)
+    : this.game.scores.sort((a, b) => a.total - b.total);
   }
 }

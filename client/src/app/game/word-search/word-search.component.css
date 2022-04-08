@@ -3,16 +3,16 @@
     width: 50vw;
 }
 
-.highlight {
-    background-color: lightyellow;
-}
-
 .correct {
     background-color: rgb(168, 245, 168);
 }
 
 .incorrect {
     background-color: #FFCCCB;
+}
+
+.highlight {
+    background-color: lightyellow;
 }
 
 .found {

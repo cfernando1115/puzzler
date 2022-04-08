@@ -4,4 +4,6 @@ export interface Score {
     gameId: number;
     total: number;
     userName: string;
+    gameName: string;
+    gameTypeName: string;
 };

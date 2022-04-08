@@ -45,7 +45,10 @@ export class AdminGamesComponent implements OnInit, OnDestroy {
   getGame(gameId: number) {
     this.gameService.getGame(gameId).subscribe((game: Game) => {
       this.game = game;
-      this.game.scores.sort((a, b) => b.total - a.total);
+      this.game.gameTypeName === 'Hangman'
+        ? this.game.scores.sort((a, b) => b.total - a.total)
+        : this.game.scores.sort((a, b) => a.total - b.total);
+      
       this.openModal(this.gameDetailModal);
     }, error => {
       console.log(error.error);

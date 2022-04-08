@@ -3,12 +3,19 @@
     <p>{{ game.gameTypeName }}</p>
     <br />
     <h5>High Scores:</h5>
-    <ul class="list-group">
+    <ul class="list-group mb-3" *ngIf="game.gameTypeName === 'Hangman'">
         <li 
             class="list-group-item border-0"
             *ngFor="let score of game.scores"
             [ngClass]="{'user-score' : score.userId == userId}">
             {{ score.userName }} - {{ score.total }}</li>
+    </ul>
+    <ul class="list-group mb-3" *ngIf="game.gameTypeName === 'Word Search'">
+        <li 
+            class="list-group-item border-0"
+            *ngFor="let score of game.scores"
+            [ngClass]="{'user-score' : score.userId == userId}">
+            {{ score.userName }} - {{ +score.total | time}}</li>
     </ul>
     <button class="btn btn-primary" (click)="gameCleared.emit(true)">Go Back</button>
 </div>

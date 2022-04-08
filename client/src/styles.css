@@ -1,3 +1,16 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.game-list__text {
+    font-size: .8rem;
+}
+
+.game-list__item--name {
+    width: 40%;
+}
+
+.game-list__item--score,
+.game-list__item--status {
+    width: 25%;
+}

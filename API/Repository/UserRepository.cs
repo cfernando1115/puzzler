@@ -78,6 +78,7 @@ namespace API.Repository
         {
             return await _context.Users
                 .Include(u => u.Scores)
+                .ThenInclude(s => s.Game)
                 .Include(u => u.Photo)
                 .Where(user => !user.UserRoles.Any(r => r.Role.Name == "Admin"))
                 .AsSingleQuery()
@@ -94,6 +95,7 @@ namespace API.Repository
                         : null,
                     Scores = p.Scores.Select(s => new ScoreDto 
                     { 
+                        GameTypeName = s.Game.GameTypeName,
                         Total = s.Total, 
                         UserId = s.UserId, 
                         GameId = s.GameId, 
