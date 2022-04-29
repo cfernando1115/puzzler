@@ -8,6 +8,8 @@ import { Register } from '../_models/register';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { GameService } from './game.service';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { Game } from '../_models/game';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,7 @@ export class AccountService {
   }
 
   logout() {
+    this.gameService.stopHubConnection();
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.router.navigateByUrl('');
@@ -60,6 +63,7 @@ export class AccountService {
       ? user.roles = roles
       : user.roles.push(roles);
     
+    this.gameService.createHubConnection(user);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
     this.gameService.getUserGames().subscribe();

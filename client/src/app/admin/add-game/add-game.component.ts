@@ -44,7 +44,8 @@ export class AddGameComponent implements OnInit {
       this.newGameForm.value.lettersGrid = lettersGrid.join(',');
     }
 
-    this.gameService.createGame(this.newGameForm.value).subscribe(() => {
+    this.gameService.createGame(this.newGameForm.value, this.gameService.hubConnection).then((response: string) => {
+      this.toastr.success(response);
       this.newGameForm.reset();
       this.newGameForm.form.patchValue({
         gameTypeId: this.defaultGameTypeId

@@ -31,3 +31,33 @@ input.ng-invalid.ng-touched {
     color: red;
 }
 
+.word__input-label {
+    width: 10%;
+}
+
+.word__input {
+    width: 75%;
+}
+
+@media only screen and (max-width: 480px) {
+    .word-search__input {
+        padding: 0;
+    }
+
+    .ws-input__container {
+        padding: 0;
+    }
+
+    .word__input-label {
+        width: 15%;
+    }
+
+    .word__input {
+        width: 80%;
+    }
+
+    .btn--save-word {
+        width: 100%;
+    }
+}
+

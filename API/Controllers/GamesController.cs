@@ -93,49 +93,6 @@ namespace API.Controllers
             return Ok(await _unitOfWork.Users.GetUserGames(userId));
         }
 
-        [Authorize(Policy = "RequireAdmin")]
-        [HttpPost("add-game")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<GameDto>> AddGame(NewGameDto gameDto)
-        {
-            var game = new Game
-            {
-                Name = gameDto.Name,
-                GameTypeId = gameDto.GameTypeId,
-                Answer = gameDto.Answer,
-                LettersGrid = gameDto.LettersGrid,
-                Words = gameDto.Words,
-                Scores = new List<Score>(),
-                GameTypeName = gameDto.GameTypeName
-            };
-
-            await _unitOfWork.Games.InsertOne(game);
-
-            if (await _unitOfWork.Complete())
-            {
-                return Ok(new GameDto
-                {
-                    Id = game.Id,
-                    Name = game.Name,
-                    Answer = game.Answer,
-                    GameTypeId = game.GameTypeId,
-                    GameTypeName = game.GameTypeName,
-                    Status = game.Status,
-                    Scores = game.Scores.Select(s => new ScoreDto
-                    {
-                        Total = s.Total,
-                        UserId = s.UserId,
-                        GameId = s.GameId,
-                        UserName = s.UserName,
-                        GameName = s.GameName
-                    }).ToList()
-                });
-            }
-
-            return StatusCode(500, "Internal server error. Please try again.");
-        }
-
         [HttpPost("add-user-game/{gameId}")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

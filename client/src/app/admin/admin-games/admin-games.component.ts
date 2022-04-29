@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { GameService } from 'src/app/_services/game.service';
 @Component({
   selector: 'app-admin-games',
   templateUrl: './admin-games.component.html',
-  styleUrls: ['./admin-games.component.css']
+  styleUrls: ['./admin-games.component.css'],
 })
 export class AdminGamesComponent implements OnInit, OnDestroy {
   currentGames: Game[];
@@ -23,12 +23,13 @@ export class AdminGamesComponent implements OnInit, OnDestroy {
   @Input()gameTypes: GameType[] = [];
 
 
-  constructor(private gameService: GameService, private modalService: BsModalService, private toastr: ToastrService) { }
+  constructor(private gameService: GameService, private modalService: BsModalService, private toastr: ToastrService, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.gameSubscription = this.gameService.currentGames$.subscribe((games: Game[]) => {
       this.currentGames = games.filter(g => g.status === 'active');
       this.archivedGames = games.filter(g => g.status === 'archived');
+      this.changeDetector.detectChanges();
     });
 
     this.getGameTypes();
@@ -56,8 +57,8 @@ export class AdminGamesComponent implements OnInit, OnDestroy {
   }
 
   deleteGame(gameId: number) {
-    this.gameService.deleteGame(gameId).subscribe((response: ReqRes) => {
-      this.toastr.success(response.message);
+    this.gameService.deleteGame(gameId, this.gameService.hubConnection).then((response: string) => {
+      this.toastr.success(response);
     }, error => {
       this.toastr.error(error.error);
     });

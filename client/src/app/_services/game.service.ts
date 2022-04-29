@@ -7,6 +7,8 @@ import { GameList } from '../_models/game-list';
 import { environment } from 'src/environments/environment';
 import { Score } from '../_models/score';
 import { ReqRes } from '../_models/reqres';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,10 @@ export class GameService {
   userGames$ = this.userGameSource.asObservable();
   private currentGameSource = new ReplaySubject<Game[]>(1);
   currentGames$ = this.currentGameSource.asObservable();
-
+  hubUrl = environment.hubUrl;
+  public hubConnection: HubConnection;
+  private user: User;
+  private admin = environment.adminRole;
 
   constructor(private http: HttpClient) { }
 
@@ -45,18 +50,10 @@ export class GameService {
     return this.http.get(`${this.baseUrl}GameTypes`);
   }
 
-  createGame(newGame: Game) {
-    return this.http.post<Game>(`${this.baseUrl}Games/add-game`, newGame).pipe(
-      map((response: Game) => {
-        this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
-          this.currentGameSource.next([...games, response]);
-          //until signalR...
-          this.addNewGameToUser(response);
-          //or...
-          //this.getUserGames().subscribe();
-        });
-      })
-    );
+  createGame(newGame: Game, hubConnection = this.hubConnection) {
+    if (hubConnection) {
+      return hubConnection.invoke('AddGame', newGame).catch(error => { });
+    }
   }
 
   addNewGameToUser(newGame: Game) {
@@ -84,22 +81,10 @@ export class GameService {
     return this.http.put<ReqRes>(`${this.baseUrl}Games/update-score`, score);
   }
 
-  deleteGame(gameId: number) {
-    return this.http.delete<ReqRes>(`${this.baseUrl}Games/${gameId}`).pipe(
-      map((response: ReqRes) => {
-        this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
-          const updatedGames = games.filter(game => {
-            return game.id !== gameId;
-          });
-          this.currentGameSource.next(updatedGames);
-          //until signalR...
-          this.deleteGameFromUser(gameId);
-          //or...
-          //this.getUserGames().subscribe();
-        });
-        return response;
-      })
-    );
+  deleteGame(id: number, hubConnection = this.hubConnection) {
+    if (hubConnection) {
+      return hubConnection.invoke('DeleteGame', id).catch(error => { });
+    }
   }
 
   updateGameStatus(gameId: number) {
@@ -115,5 +100,49 @@ export class GameService {
         return response;
       })
     );
+  }
+
+  createHubConnection(user: User) {
+    this.user = user;
+
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(this.hubUrl + 'game', {
+        accessTokenFactory: () => user.token
+      })
+      .withAutomaticReconnect()
+      .build();
+    
+    this.hubConnection
+      .start()
+      .catch(error => console.log(error));
+    
+    this.hubConnection.on('GameDeleted', (gameId: number) => {
+      this.deleteGameFromUser(gameId);
+      
+      if (this.user.roles.some(role => role === this.admin)) {
+        this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
+          const updatedGames = games.filter(game => {
+            return game.id !== gameId;
+          });
+  
+          this.currentGameSource.next(updatedGames);
+        });
+      }     
+    });
+
+    this.hubConnection.on('GameAdded', (game: Game) => {
+      this.addNewGameToUser(game);
+
+      if (this.user.roles.some(role => role === this.admin)) {
+        this.currentGames$.pipe(take(1)).subscribe((games: Game[]) => {
+          this.currentGameSource.next([...games, game]);
+        });
+      }
+    });
+  }
+
+  stopHubConnection() {
+    this.hubConnection.stop()
+      .catch(error => console.log(error));
   }
 }
