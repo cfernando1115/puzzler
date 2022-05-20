@@ -34,9 +34,12 @@ export class AddGameComponent implements OnInit {
 
   addGame() {
     this.newGameForm.value.gameTypeName = this.gameTypes.find(t => t.id === +this.newGameForm.value.gameTypeId).name;
+    this.newGameForm.value.gameTypeId = this.gameTypeId;
+
     const lettersGrid = [];
     for (let i = 0; i < 100; i++) {
       lettersGrid.push(this.newGameForm.value[`letter${i}`]);
+      delete this.newGameForm.value[`letter${i}`];
     }
     
     if (this.gameTypeId === 2) {

@@ -1,6 +1,6 @@
 <div class="row mb-4">
     <div class="col-md-6 col-sm-12 mb-4 d-flex flex-column justify-content-center align-items-center">
-        <img src="{{user.photo?.url || './assets/user.png'}}" alt="{{ user.photo?.url }}" class="img-thumbnail p-1">
+        <img src="{{user.photo?.url || './assets/user.png'}}" alt="{{ user.photo?.url }}" class="img-thumbnail p-1 border-0 shadow">
         <div class="text-center mt-2">
             <button *ngIf="user.photo" class="btn btn-sm btn-danger" (click)="deletePhoto(user.photo.id)">
                 <i class="fa fa-trash"></i>
@@ -17,7 +17,7 @@
              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
              (fileOver)="fileOverBase($event)"
              [uploader]="uploader"
-             class="card bg-faded p-3 text-center mb-3 my-drop-zone">
+             class="card bg-faded p-3 text-center mb-3 my-drop-zone border-0 shadow">
              <i class="fa fa-upload fa-3x"></i>
             Drop photo here
         </div>
@@ -54,15 +54,15 @@
                         <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success btn-s mr-1"
+                <button type="button" class="btn btn-success btn-sm mr-1"
                         (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                     <span class="fa fa-upload"></span> Upload
                 </button>
-                <button type="button" class="btn btn-warning btn-s mr-1"
+                <button type="button" class="btn btn-warning btn-sm mr-1"
                         (click)="cancelUpload()" [disabled]="!uploader.isUploading">
                     <span class="fa fa-ban"></span> Cancel
                 </button>
-                <button type="button" class="btn btn-danger btn-s"
+                <button type="button" class="btn btn-danger btn-sm"
                         (click)="removeUpload()" [disabled]="!uploader.queue.length">
                     <span class="fa fa-trash"></span> Remove
                 </button>

@@ -1,7 +1,8 @@
 <div class="container">
     <p>Your score is the amount of time it takes to find all of the words! (Time Limit: 30 minutes)</p>
     <p><b>Directions: Select a word by clicking on its first and last letters</b></p>
-    <button type="button" class="btn btn-primary" [disabled]="gameLoaded" (click)="loadGame()">Start Game</button>
+    <button type="button" class="btn btn-primary btn-sm" [disabled]="gameLoaded" (click)="loadGame()">Start Game</button>
+    <button type="button" class="btn btn-secondary btn-sm" [disabled]="gameLoaded" (click)="cancelLoadGame()">cancel</button>
     <p class="text-danger"><small>Cheaters never win...don't refresh page after starting game!</small></p>
     <div *ngIf="gameLoaded">
         <div class="row justify-content-between">

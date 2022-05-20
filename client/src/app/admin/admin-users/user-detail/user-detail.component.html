@@ -1,8 +1,7 @@
 <div class="row no-gutters mb-3">
-    <div class="card col-md-12 mb-3">
-        <div class="d-flex justify-content-center card-img-top">
-            <!--profile pic placeholder-->
-            <i class="fa fa-puzzle-piece p-3" style="font-size: 500%; color: grey;"></i>
+    <div class="card col-md-12 mb-3 border-0 shadow">
+        <div class="d-flex justify-content-center align-items-center card-img-top">
+            <img src="{{player.photo?.url || './assets/user.png'}}" alt="{{ player.userName }}" class="user-detail__img mr-2" />
         </div>
         <div class="card-body text-center">
             <h5>{{ player.userName }}</h5>
@@ -14,9 +13,9 @@
             </div>
         </div>
         <div class="btn-group justify-content-center pb-3">
-            <button class="btn btn-danger"(click)="deletePlayer(player.id)">Delete</button>
+            <button class="btn btn-danger btn-sm"(click)="deletePlayer(player.id)">Delete</button>
         </div>
     </div>
 </div>
-<a class="btn btn-primary" [routerLink]="['/admin', 'users']">Go Back</a>
+<a class="btn btn-primary btn-sm mb-3" [routerLink]="['/admin', 'users']">Go Back</a>
 

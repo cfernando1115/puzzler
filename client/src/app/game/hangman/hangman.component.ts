@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from 'src/app/_models/game';
-import { Score } from 'src/app/_models/score';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -21,7 +21,7 @@ export class HangmanComponent implements OnInit {
   gameMessage: string;
   @Output() scoreCalculated = new EventEmitter<number>();
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.answerArray = [...this.game.answer.toUpperCase()];
@@ -32,6 +32,10 @@ export class HangmanComponent implements OnInit {
   loadGame() {
     this.gameLoaded = true;
     this.gamePlayed.emit(true);
+  }
+
+  cancelLoadGame() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   selectLetter(event: any) {

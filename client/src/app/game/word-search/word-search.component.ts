@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from 'src/app/_models/game';
 import { SearchWord } from 'src/app/_models/search-word';
 import { WordSearchLetter } from 'src/app/_models/word-search-letter';
@@ -27,7 +28,7 @@ export class WordSearchComponent implements OnInit {
   totalTime: number;
   timer: ReturnType<typeof setInterval>;
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.lettersArray = this.game.lettersGrid.split(',').map((letter: string) => {
@@ -53,6 +54,10 @@ export class WordSearchComponent implements OnInit {
     this.startTime = new Date();
     this.timer = setInterval(this.logTime.bind(this), 1000);
     this.gamePlayed.emit(true);
+  }
+
+  cancelLoadGame() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   logTime() {

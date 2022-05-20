@@ -52,7 +52,7 @@ export class GameService {
 
   createGame(newGame: Game, hubConnection = this.hubConnection) {
     if (hubConnection) {
-      return hubConnection.invoke('AddGame', newGame).catch(error => { });
+      return hubConnection.invoke('AddGame', newGame).catch(error => { console.log(error) });
     }
   }
 

@@ -1,7 +1,7 @@
 <app-add-game [gameTypes]="gameTypes"></app-add-game>
 <h3 class="mt-4">Current Games</h3>
 <div class="row no-gutters mb-3">
-    <div class="card col-lg-3 col-md-4 col-sm-6 mb-3" *ngFor="let game of currentGames">
+    <div class="card col-lg-3 col-md-4 col-sm-6 mb-3 border-0 shadow mr-1 ml-1" *ngFor="let game of currentGames">
         <div class="d-flex justify-content-center card-img-top">
             <i class="fa fa-puzzle-piece p-3" style="font-size: 500%; color: grey;"></i>
         </div>
@@ -18,8 +18,8 @@
 </div>
 
 <h3 class="mt-4">Archived Games</h3>
-<div class="row no-gutters mb-3">
-    <div class="card col-lg-3 col-md-4 col-sm-6 mb-3" *ngFor="let game of archivedGames" [class.bg-light]="game.status == 'archived'">
+<div class="row no-gutters pb-3">
+    <div class="card col-lg-3 col-md-4 col-sm-6 mb-3 border-0 shadow mr-1 ml-1" *ngFor="let game of archivedGames" [class.bg-light]="game.status == 'archived'">
         <div class="d-flex justify-content-center card-img-top">
             <i class="fa fa-puzzle-piece p-3" style="font-size: 500%; color: grey;"></i>
         </div>
@@ -53,7 +53,7 @@
         </div>
     </div>
     <div class="modal-footer">
-       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+       <button type="button" class="btn btn-default btn-sm" (click)="modalRef.hide()">Close</button>
     </div>
   </ng-template>
 

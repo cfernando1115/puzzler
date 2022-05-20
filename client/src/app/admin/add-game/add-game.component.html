@@ -7,7 +7,7 @@
                 <div class="col-sm-10">
                 <select 
                     #gameTypeSelect 
-                    class="form-control" 
+                    class="form-control border-0 shadow" 
                     name="gameTypeId" 
                     ngModel 
                     [ngModel]="defaultGameTypeId" 
@@ -19,23 +19,23 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="name" ngModel #name="ngModel" required/>
+                    <input class="form-control border-0 shadow" type="text" name="name" ngModel #name="ngModel" required/>
                     <span class="text-danger" *ngIf="name.invalid && name.touched">Name is required</span>
                 </div>
             </div>
             <div class="form-group row" *ngIf="gameTypeId === 1">
                 <label for="answer" class="col-sm-2 col-form-label">Answer</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" name="answer" ngModel #answer="ngModel" required/>
+                    <input class="form-control border-0 shadow" type="text" name="answer" ngModel #answer="ngModel" required/>
                     <span class="text-danger" *ngIf="answer.invalid && answer.touched">Answer is required</span>
                 </div>
             </div>
-            <div class="container-fluid p-4 mt-4 mb-4 word-search__container rounded" *ngIf="gameTypeId === 2">
+            <div class="container-fluid p-4 mt-4 mb-4 word-search__container rounded shadow" *ngIf="gameTypeId === 2">
                 <div class="form-group row">
                     <div class="col-md-10 col-xs-12 d-flex align-items-center p-xs-0 mb-2">
                         <label for="word" class=" form-label mb-0 mr-2 word__input-label">Word</label>
                         <div class="word__input pl-0">
-                            <input class="form-control" type="text" name="word" [(ngModel)]="newWord" (keyup.enter)="saveWord()" />
+                            <input class="form-control border-0" type="text" name="word" [(ngModel)]="newWord" (keyup.enter)="saveWord()" />
                         </div>
                     </div>
                     <div class="col-md-2 col-xs-12 d-flex align-items-center ml-auto">
@@ -51,7 +51,7 @@
                     <div *ngFor="let square of wordSearchSquares; let i = index;" style="width: 10%;" class="p-1">
                         <input type="text" 
                             [name]="'letter' + i" 
-                            class="form-control text-center word-search__input" 
+                            class="form-control text-center word-search__input border-0" 
                             [(ngModel)]="wordSearchLetters[i]" 
                             autocomplete="off" 
                             maxlength="1"
@@ -66,12 +66,12 @@
                         <h5 class="mb-0">Press fill button to complete grid and verify puzzle</h5>
                         <div class="d-flex ml-auto align-items-center">
                             <h6 class="text-danger mr-3 mb-0" *ngIf="wordSearchInvalid">You are missing words</h6>
-                            <button class="btn btn-primary" type="button" (click)="verifyGrid()" [disabled]="wordSearchLocked || wordSearchWords.length === 0">Fill Grid</button>
+                            <button class="btn btn-primary btn-sm" type="button" (click)="verifyGrid()" [disabled]="wordSearchLocked || wordSearchWords.length === 0">Fill Grid</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <button [disabled]="newGameForm.invalid || (!wordSearchLocked && gameTypeId === 2)" class="btn btn-success mr-2" type="submit">Submit</button>
+            <button [disabled]="newGameForm.invalid || (!wordSearchLocked && gameTypeId === 2)" class="btn btn-success btn-sm mr-2" type="submit">Submit</button>
         </form><br><br>
     </div>
 </div>

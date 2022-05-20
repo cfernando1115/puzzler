@@ -24,6 +24,8 @@ namespace API.SignalR
             _unitOfWork = unitOfWork;
         }
 
+        [Authorize(Policy = "RequireAdmin")]
+        [HttpDelete]
         public async Task<string> DeleteGame(int gameId)
         {
             var game = await _unitOfWork.Games.GetOne(expression: (x) => x.Id == gameId);
@@ -45,7 +47,7 @@ namespace API.SignalR
         }
 
         [Authorize(Policy = "RequireAdmin")]
-        [HttpPost("add-game")]
+        [HttpPost]
         public async Task<string> AddGame(NewGameDto gameDto)
         {
             var game = new Game

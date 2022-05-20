@@ -1,2 +1,3 @@
 <app-register></app-register>
 <app-game-list [user]="user" *ngIf="(this.accountService.currentUser$ | async) !== null"></app-game-list>
+
