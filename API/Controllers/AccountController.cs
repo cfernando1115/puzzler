@@ -6,6 +6,8 @@ using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -28,6 +30,8 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if(await UserExists(registerDto.UserName))
@@ -55,15 +59,16 @@ namespace API.Controllers
                 return BadRequest(roleResult.Errors);
             }
 
-            return new UserDto
+            return Ok(new UserDto
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Token = await _tokenService.CreateToken(user)
-            };
+            });
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.Users
@@ -95,6 +100,35 @@ namespace API.Controllers
                     : null,
                 Token = await _tokenService.CreateToken(user)
             };
+        }
+
+        [Authorize(Policy = "RequireAdmin")]
+        [HttpPost("register-admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<AdminDto>> RegisterAdmin(AdminRegisterDto adminRegisterDto){
+            if (await UserExists(adminRegisterDto.UserName))
+            {
+                return BadRequest("Admin username is taken");
+            }
+
+            var admin = new AppUser
+            {
+                UserName = adminRegisterDto.UserName.ToLower()
+            };
+
+            var result = await _userManager.CreateAsync(admin, adminRegisterDto.Password);
+            await _userManager.AddToRoleAsync(admin, "Admin");
+
+            if(!result.Succeeded)
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(new AdminDto {
+                Id = admin.Id,
+                UserName = admin.UserName
+            });
         }
 
         private async Task<bool> UserExists(string username)

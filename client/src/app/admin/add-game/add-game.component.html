@@ -8,7 +8,8 @@
                 <select 
                     #gameTypeSelect 
                     class="form-control border-0 shadow" 
-                    name="gameTypeId" 
+                    name="gameTypeId"
+                    id="gameTypeId" 
                     ngModel 
                     [ngModel]="defaultGameTypeId" 
                     (change)="setGameTypeId()">
@@ -19,14 +20,14 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Name</label>
                 <div class="col-sm-10">
-                    <input class="form-control border-0 shadow" type="text" name="name" ngModel #name="ngModel" required/>
+                    <input class="form-control border-0 shadow" type="text" name="name" id="name" ngModel #name="ngModel" required/>
                     <span class="text-danger" *ngIf="name.invalid && name.touched">Name is required</span>
                 </div>
             </div>
             <div class="form-group row" *ngIf="gameTypeId === 1">
                 <label for="answer" class="col-sm-2 col-form-label">Answer</label>
                 <div class="col-sm-10">
-                    <input class="form-control border-0 shadow" type="text" name="answer" ngModel #answer="ngModel" required/>
+                    <input class="form-control border-0 shadow" type="text" name="answer" id="answer" ngModel #answer="ngModel" required/>
                     <span class="text-danger" *ngIf="answer.invalid && answer.touched">Answer is required</span>
                 </div>
             </div>
@@ -35,7 +36,7 @@
                     <div class="col-md-10 col-xs-12 d-flex align-items-center p-xs-0 mb-2">
                         <label for="word" class=" form-label mb-0 mr-2 word__input-label">Word</label>
                         <div class="word__input pl-0">
-                            <input class="form-control border-0" type="text" name="word" [(ngModel)]="newWord" (keyup.enter)="saveWord()" />
+                            <input class="form-control border-0" type="text" name="word" id="word" [(ngModel)]="newWord" (keyup.enter)="saveWord()" />
                         </div>
                     </div>
                     <div class="col-md-2 col-xs-12 d-flex align-items-center ml-auto">

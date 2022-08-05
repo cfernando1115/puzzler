@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class UsersController: BaseApiController
+    public class UsersController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
 

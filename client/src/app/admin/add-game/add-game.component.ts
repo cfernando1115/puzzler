@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { GameType } from 'src/app/_models/game-type';
 import { SearchWord } from 'src/app/_models/search-word';
