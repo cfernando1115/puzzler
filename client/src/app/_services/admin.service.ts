@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { ReplaySubject, throwError } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { Admin } from '../_models/admin';
+import { ChangePassword } from '../_models/change-password';
 import { Register } from '../_models/register';
+import { ReqRes } from '../_models/reqres';
 
 @Injectable({
   providedIn: 'root'
@@ -27,10 +29,28 @@ export class AdminService {
 
   registerAdmin(model: Register) {
     return this.http.post(this.baseUrl + 'account/register-admin', model).pipe(
-      map((newAdmin: Admin) => {
+      map((response: ReqRes) => {
         this.admins$.pipe(take(1)).subscribe((admins: Admin[]) => {
-          this.adminSource.next([...admins, newAdmin]);
+          this.adminSource.next([...admins, response.data]);
         })
+        return response;
+      })
+    );
+  }
+
+  changePassword(model: ChangePassword) {
+    return this.http.put(this.baseUrl + 'account/change-password', model);
+  }
+
+  deleteAdmin(adminId: number) {
+    return this.http.delete(this.baseUrl + 'admins/delete/' + adminId).pipe(
+      map((response: ReqRes) => {
+        this.admins$.pipe(take(1)).subscribe((admins: Admin[]) => {
+          const deletedIndex = admins.findIndex(admin => admin.id === adminId);
+          admins.splice(deletedIndex, 1);
+          this.adminSource.next(admins);
+        })
+        return response;
       })
     );
   }

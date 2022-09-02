@@ -6,6 +6,7 @@
     </div>
     <div class="row mb-3" *ngIf="addAdmin">
         <form [formGroup]="newAdminForm" class="mt-2 col-lg-6 col-sm-10 bg-light p-5 rounded shadow d-flex justify-content-center flex-column">
+            <h3>Add Admin</h3>
             <small class="alert alert-primary">Passwords must contain at least one capital letter and one digit</small>
             <div class="form-group">
                 <label class="mb-0 mr-2" for="username">Username</label>
@@ -28,7 +29,39 @@
                 <div class="invalid-feedback" *ngIf="newAdminForm.get('confirmPassword').hasError('required')">Password confirmation is required</div>
                 <div class="invalid-feedback" *ngIf="newAdminForm.get('confirmPassword').hasError('isMatching')">Confirmation must match password</div>
             </div>
-            <button type="submit" class="btn btn-outline-primary" (click)="submitNewAdmin()">Submit</button>
+            <button type="submit" class="btn btn-outline-primary" (click)="submitNewAdmin()" [disabled]="!newAdminForm.valid">Submit</button>
+        </form>
+    </div>
+    <div class="row mb-3" *ngIf="changePassword">
+        <form [formGroup]="changePasswordForm" class="mt-2 col-lg-6 col-sm-10 bg-light p-5 rounded shadow d-flex justify-content-center flex-column">
+            <h3>Change Password</h3>
+            <small class="alert alert-primary">Passwords must contain at least one capital letter and one digit</small>
+            <div class="form-group">
+                <label class="mb-0 mr-2" for="username">Username</label>
+                <input class="form-control" type="text" formControlName="username" id="username" />
+            </div>
+            <div class="form-group">
+                <label for="password">Current Password</label>
+                <input class="form-control" type="currentPassword" formControlName="currentPassword" id="currentPassword"
+                    [class.is-invalid]="changePasswordForm.get('currentPassword').errors && changePasswordForm.get('currentPassword').touched"/>
+                <div class="invalid-feedback" *ngIf="changePasswordForm.get('currentPassword').hasError('required')">Current Password is required</div>
+            </div>
+            <div class="form-group">
+                <label for="password">New Password</label>
+                <input class="form-control" type="password" formControlName="newPassword" id="newPassword"
+                    [class.is-invalid]="changePasswordForm.get('newPassword').errors && changePasswordForm.get('newPassword').touched"/>
+                <div class="invalid-feedback" *ngIf="changePasswordForm.get('newPassword').hasError('required')">Password is required</div>
+                <div class="invalid-feedback" *ngIf="changePasswordForm.get('newPassword').hasError('minlength')">Password must be at least 6 characters long</div>
+                <div class="invalid-feedback" *ngIf="changePasswordForm.get('newPassword').hasError('maxlength')">Password must be at most 10 characters long</div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input class="form-control" type="password" formControlName="confirmPassword" id="confirmPassword"
+                    [class.is-invalid]="changePasswordForm.get('confirmPassword').errors && changePasswordForm.get('confirmPassword').touched"/>
+                <div class="invalid-feedback" *ngIf="changePasswordForm.get('confirmPassword').hasError('required')">Password confirmation is required</div>
+                <div class="invalid-feedback" *ngIf="changePasswordForm.get('confirmPassword').hasError('isMatching')">Confirmation must match password</div>
+            </div>
+            <button type="submit" class="btn btn-outline-primary" (click)="submitChangePassword()" [disabled]="!changePasswordForm.valid">Submit</button>
         </form>
     </div>
     <div class="row d-flex align-items-center">
@@ -42,8 +75,8 @@
                             </div>
                     </a>
                     <div class="btn-group-sm d-flex justify-content-center ml-2">
-                        <button class="btn btn-success mr-2 admin-btn mt-2">Change Password</button>
-                        <button class="btn btn-danger admin-btn mt-2">Delete</button>
+                        <button class="btn btn-success mr-2 admin-btn mt-2" (click)="changePasswordClicked(admin.id)">Change Password</button>
+                        <button class="btn btn-danger admin-btn mt-2" (click)="deleteAdminClicked(admin.id)">Delete</button>
                     </div>
                 </li>
             </ul>

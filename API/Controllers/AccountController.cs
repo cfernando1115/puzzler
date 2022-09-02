@@ -107,9 +107,12 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AdminDto>> RegisterAdmin(AdminRegisterDto adminRegisterDto){
+            string message;
+
             if (await UserExists(adminRegisterDto.UserName))
             {
-                return BadRequest("Admin username is taken");
+                message = "Admin username is taken.";
+                return BadRequest(new { message });
             }
 
             var admin = new AppUser
@@ -120,15 +123,44 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(admin, adminRegisterDto.Password);
             await _userManager.AddToRoleAsync(admin, "Admin");
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 return StatusCode(500);
             }
 
-            return Ok(new AdminDto {
+            message = "Admin successfully added.";
+            AdminDto data = new AdminDto
+            {
                 Id = admin.Id,
                 UserName = admin.UserName
-            });
+            };
+
+            return Ok(new { message, data });
+        }
+
+        [Authorize(Policy = "RequireAdmin")]
+        [HttpPut("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody]PasswordChangeDto passwordChangeDto)
+        {
+            string message;
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == passwordChangeDto.Id);
+
+            if(user != null) 
+            {
+                var result = await _userManager.ChangePasswordAsync(user, passwordChangeDto.CurrentPassword, passwordChangeDto.NewPassword);
+                if (!result.Succeeded)
+                {
+                    return StatusCode(500);
+                }
+
+                message = "Password successfully updated.";
+
+                return Ok(new { message });
+            }
+
+            message = "Failed to update password";
+            return BadRequest(new { message });
         }
 
         private async Task<bool> UserExists(string username)

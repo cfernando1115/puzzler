@@ -1,4 +1,4 @@
 export interface Admin {
     id: number,
-    username: string
+    userName: string
 }

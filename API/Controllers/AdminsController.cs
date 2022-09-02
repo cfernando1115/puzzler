@@ -39,5 +39,32 @@ namespace API.Controllers
             }
             return Ok(adminDtos);
         }
+
+        [Authorize(Policy = "RequireAdmin")]
+        [HttpDelete("delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteAdmin(int id)
+        {
+            string message;
+            var admin = await _unitOfWork.Users.GetOne(expression: (x) => x.Id == id);
+
+            if(admin == null)
+            {
+                message = "Admin does not exist in database.";
+                return BadRequest(new { message });
+            }
+
+            await _unitOfWork.Users.DeleteOne(id);
+            
+            if(await _unitOfWork.Complete())
+            {
+                message = "Admin successfully deleted.";
+                return Ok(new { message });
+            }
+
+            return StatusCode(500, "Internal server error. Please try again.");
+        }
     }
 }

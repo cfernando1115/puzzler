@@ -28,7 +28,6 @@ export class GameComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.gameService.userGames$.pipe(take(1)).subscribe(games => {
-        console.log(games);
         this.game = games.newGames.find(g => g.id === +params.gameId);
       })
     })
@@ -37,7 +36,6 @@ export class GameComponent implements OnInit {
   addGameToUser(event: boolean) {
     this.gameService.addGameToUser(this.game.id).subscribe(score => {
       this.score = score;
-      console.log(score);
       
       //on cheater-refresh, game will be marked as played
       this.gameService.getUserGames().subscribe();
